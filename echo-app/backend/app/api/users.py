@@ -6,13 +6,14 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.common import ApiResponse
 from app.schemas.user import (
-    UserCreate, UserResponse, UserUpdate, UserStatsResponse,
+    UserResponse, UserUpdate, UserStatsResponse,
     UserRegister, UserLogin, TokenResponse
 )
 from app.services import user_service
 from app.core.auth import verify_password, create_access_token
 from app.core.deps import get_current_user
 from app.models.user import User
+from datetime import datetime
 
 router = APIRouter(prefix="/api/user", tags=["用户"])
 
@@ -162,57 +163,3 @@ async def update_current_user_profile(
         data=UserResponse.model_validate(current_user),
         message="更新成功"
     )
-
-
-# ==================== 老版API（兼容） ====================
-
-@router.post("/init", response_model=ApiResponse[UserResponse])
-async def init_user(request: UserCreate, db: Session = Depends(get_db)):
-    """
-    初始化/获取用户（老版本，兼容device_id）
-    """
-    user = user_service.get_or_create_user(db, request.device_id, request.name)
-    return ApiResponse(
-        data=UserResponse.model_validate(user),
-        message="用户初始化成功"
-    )
-
-
-@router.get("/profile", response_model=ApiResponse[UserResponse])
-async def get_profile(device_id: str, db: Session = Depends(get_db)):
-    """获取用户信息（老版本）"""
-    user = user_service.get_user_by_device_id(db, device_id)
-    if not user:
-        return ApiResponse(
-            success=False,
-            data=None,
-            message="用户不存在"
-        )
-    return ApiResponse(data=UserResponse.model_validate(user))
-
-
-@router.put("/profile", response_model=ApiResponse[UserResponse])
-async def update_profile(device_id: str, update: UserUpdate, db: Session = Depends(get_db)):
-    """更新用户信息（老版本）"""
-    user = user_service.update_user(db, device_id, update)
-    if not user:
-        return ApiResponse(
-            success=False,
-            data=None,
-            message="用户不存在"
-        )
-    return ApiResponse(
-        data=UserResponse.model_validate(user),
-        message="更新成功"
-    )
-
-
-@router.get("/stats", response_model=ApiResponse[UserStatsResponse])
-async def get_stats(device_id: str, db: Session = Depends(get_db)):
-    """获取用户统计数据（老版本）"""
-    stats = user_service.get_user_stats(db, device_id)
-    return ApiResponse(data=stats)
-
-
-# 导入datetime用于stats计算
-from datetime import datetime

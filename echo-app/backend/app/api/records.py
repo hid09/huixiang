@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 @router.post("/text", response_model=ApiResponse[RecordResponse])
 async def create_text_record(
+    background_tasks: BackgroundTasks,
     request: RecordCreate,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
@@ -29,7 +30,8 @@ async def create_text_record(
     """
     创建文字记录（需要认证）
 
-    MVP版本：暂时不调用AI，直接保存记录
+    1. 先创建基础记录（情绪="分析中"），立即返回
+    2. 后台异步执行情绪分析，完成后更新记录
     """
     # 校验文本不能为空
     if not request.text or not request.text.strip():
@@ -38,10 +40,76 @@ async def create_text_record(
             data=None,
             message="请输入内容"
         )
-    
-    record = record_service.create_text_record_by_user_id(
-        db, current_user.id, request.text, request.local_timestamp, request.local_date
+
+    # 解析本地时间
+    local_dt = None
+    if request.local_timestamp:
+        try:
+            local_dt = datetime.fromisoformat(request.local_timestamp.replace("Z", "+00:00"))
+        except:
+            local_dt = datetime.utcnow()
+
+    # 先创建基础记录（情绪标记为"分析中"），立即返回
+    record = record_service.create_voice_record_by_user_id(
+        db=db,
+        user_id=current_user.id,
+        text=request.text,
+        emotion="neutral",  # 临时值
+        emotion_score=0.5,
+        keywords=[],
+        topics=[],
+        audio_duration=0,
+        local_timestamp=local_dt,
+        local_date=request.local_date,
+        mixed_emotions={},
+        primary_emotion="分析中",  # 标记为分析中
+        triggers=[],
+        unspoken_need="",
+        energy_level=5,
+        brief_summary="",
+        input_type="分析中"
     )
+
+    logger.info(f"✅ 文字记录创建成功，ID: {record.id}，启动后台分析任务")
+
+    # 后台异步执行情绪分析
+    async def analyze_and_update():
+        """后台任务：分析情绪并更新记录"""
+        try:
+            from app.database import SessionLocal
+            db_bg = SessionLocal()
+
+            t_start = time.time()
+            print(f"🧠 [后台分析-文字] 开始分析记录 {record.id}, 文本: {request.text[:30]}...", flush=True)
+
+            analysis = await ai_service.analyze_record(request.text)
+
+            t_end = time.time()
+            print(f"🧠 [后台分析-文字] 分析完成，耗时: {t_end-t_start:.2f}秒", flush=True)
+
+            # 更新记录
+            record_service.update_record_analysis(
+                db=db_bg,
+                record_id=record.id,
+                emotion=analysis.get("emotion", "neutral"),
+                emotion_score=analysis.get("emotion_score", 0.5),
+                keywords=analysis.get("keywords", []),
+                topics=analysis.get("topics", []),
+                mixed_emotions=analysis.get("mixed_emotions"),
+                primary_emotion=analysis.get("primary_emotion", "平静"),
+                triggers=analysis.get("triggers"),
+                unspoken_need=analysis.get("unspoken_need", ""),
+                energy_level=analysis.get("energy_level", 5),
+                brief_summary=analysis.get("brief_summary", ""),
+                input_type=analysis.get("input_type", "情绪表达")
+            )
+            logger.info(f"✅ [后台] 文字记录分析更新完成，ID: {record.id}")
+            db_bg.close()
+        except Exception as e:
+            logger.error(f"❌ [后台] 分析任务失败: {e}")
+
+    background_tasks.add_task(analyze_and_update)
+
     return ApiResponse(
         data=RecordResponse.model_validate(record),
         message="记录成功"

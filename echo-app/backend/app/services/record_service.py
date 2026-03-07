@@ -44,34 +44,6 @@ def get_diary_date() -> str:
         return now.strftime("%Y-%m-%d")
 
 
-def create_text_record(db: Session, device_id: str, text: str, local_timestamp: datetime = None) -> VoiceRecord:
-    """
-    创建文字记录
-
-    MVP版本：暂时不调用AI，直接保存
-    """
-    # 获取用户
-    user = db.query(User).filter(User.device_id == device_id).first()
-    if not user:
-        raise ValueError("用户不存在")
-
-    # 创建记录
-    record = VoiceRecord(
-        user_id=user.id,
-        transcribed_text=text,
-        recorded_at=local_timestamp or get_china_now(),
-        local_timestamp=local_timestamp
-    )
-    db.add(record)
-
-    # 更新用户统计
-    _update_user_stats(db, user, record.recorded_at)
-
-    db.commit()
-    db.refresh(record)
-    return record
-
-
 def _update_user_stats(db: Session, user: User, record_time: datetime):
     """更新用户统计数据"""
     record_date = record_time.strftime("%Y-%m-%d")
@@ -101,65 +73,9 @@ def _update_user_stats(db: Session, user: User, record_time: datetime):
         user.last_record_date = record_date
 
 
-def get_records(db: Session, device_id: str, date_str: str = None, page: int = 1, page_size: int = 20) -> RecordListResponse:
-    """获取记录列表"""
-    user = db.query(User).filter(User.device_id == device_id).first()
-    if not user:
-        return RecordListResponse(items=[], total=0, page=page, page_size=page_size)
-
-    query = db.query(VoiceRecord).filter(VoiceRecord.user_id == user.id)
-
-    # 日期筛选
-    if date_str:
-        target_date = datetime.strptime(date_str, "%Y-%m-%d").date()
-        query = query.filter(func.date(VoiceRecord.recorded_at) == target_date)
-
-    # 排序和分页
-    total = query.count()
-    records = query.order_by(VoiceRecord.recorded_at.desc()).offset((page - 1) * page_size).limit(page_size).all()
-
-    return RecordListResponse(
-        items=[record for record in records],
-        total=total,
-        page=page,
-        page_size=page_size
-    )
-
-
-def get_today_records(db: Session, device_id: str) -> List[VoiceRecord]:
-    """获取今日所有记录"""
-    user = db.query(User).filter(User.device_id == device_id).first()
-    if not user:
-        return []
-
-    today = date.today()
-    return db.query(VoiceRecord).filter(
-        VoiceRecord.user_id == user.id,
-        func.date(VoiceRecord.recorded_at) == today
-    ).order_by(VoiceRecord.recorded_at.asc()).all()
-
-
 def get_record_by_id(db: Session, record_id: str) -> Optional[VoiceRecord]:
     """获取单条记录"""
     return db.query(VoiceRecord).filter(VoiceRecord.id == record_id).first()
-
-
-def get_month_record_days(db: Session, device_id: str) -> int:
-    """获取本月记录天数"""
-    user = db.query(User).filter(User.device_id == device_id).first()
-    if not user:
-        return 0
-
-    today = date.today()
-    month_start = today.replace(day=1)
-
-    # 查询本月有记录的不重复日期数
-    distinct_dates = db.query(func.date(VoiceRecord.recorded_at)).filter(
-        VoiceRecord.user_id == user.id,
-        VoiceRecord.recorded_at >= month_start
-    ).distinct().count()
-
-    return distinct_dates
 
 
 def get_month_record_days_by_user_id(db: Session, user_id: str) -> int:
@@ -175,7 +91,7 @@ def get_month_record_days_by_user_id(db: Session, user_id: str) -> int:
     return distinct_dates
 
 
-# ==================== 基于用户ID的方法（新版Token认证） ====================
+# ==================== 基于用户ID的方法（Token认证） ====================
 
 def create_text_record_by_user_id(db: Session, user_id: str, text: str, local_timestamp: datetime = None, local_date: str = None) -> VoiceRecord:
     """创建文字记录（根据用户ID）

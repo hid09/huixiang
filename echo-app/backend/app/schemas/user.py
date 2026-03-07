@@ -6,12 +6,6 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-class UserCreate(BaseModel):
-    """创建用户请求（老版本兼容）"""
-    device_id: str
-    name: Optional[str] = "回响用户"
-
-
 class UserRegister(BaseModel):
     """注册请求"""
     username: str
@@ -29,7 +23,6 @@ class UserResponse(BaseModel):
     """用户响应"""
     id: str
     username: Optional[str] = None
-    device_id: Optional[str] = None
     name: str
     avatar: Optional[str] = None
     timezone: str = "Asia/Shanghai"

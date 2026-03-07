@@ -68,7 +68,6 @@ api.interceptors.response.use(
 export interface User {
   id: string
   username: string | null
-  device_id: string | null
   name: string
   avatar: string | null
   timezone: string
@@ -114,24 +113,6 @@ export const userApi = {
   // 更新当前用户信息（需要认证）
   updateProfileMe: (data: Partial<User>) =>
     api.put<unknown, ApiResponse<User>>('/user/profile/me', data),
-
-  // ========== 老版API（兼容） ==========
-
-  // 初始化/获取用户
-  init: (deviceId: string, name: string = '回响用户') =>
-    api.post<unknown, ApiResponse<User>>('/user/init', { device_id: deviceId, name }),
-
-  // 获取用户信息
-  getProfile: (deviceId: string) =>
-    api.get<unknown, ApiResponse<User>>(`/user/profile?device_id=${deviceId}`),
-
-  // 更新用户信息
-  updateProfile: (deviceId: string, data: Partial<User>) =>
-    api.put<unknown, ApiResponse<User>>(`/user/profile?device_id=${deviceId}`, data),
-
-  // 获取用户统计
-  getStats: (deviceId: string) =>
-    api.get<unknown, ApiResponse<UserStats>>(`/user/stats?device_id=${deviceId}`),
 }
 
 // ==================== 记录相关API ====================
@@ -156,8 +137,6 @@ export interface RecordListResponse {
 }
 
 export const recordApi = {
-  // ========== 新版API（Token认证） ==========
-
   // 创建文字记录（需要认证）
   createTextByToken: (text: string, localTimestamp?: string, localDate?: string) =>
     api.post<unknown, ApiResponse<Record>>('/records/text', {
@@ -219,27 +198,6 @@ export const recordApi = {
     })
     return response.json()
   },
-
-  // ========== 老版API（兼容） ==========
-
-  // 创建文字记录
-  createText: (deviceId: string, text: string) =>
-    api.post<unknown, ApiResponse<Record>>(`/records/text?device_id=${deviceId}`, { text }),
-
-  // 获取记录列表
-  getList: (deviceId: string, date?: string, page: number = 1, pageSize: number = 20) => {
-    const params = new URLSearchParams({ device_id: deviceId, page: String(page), page_size: String(pageSize) })
-    if (date) params.append('date', date)
-    return api.get<unknown, ApiResponse<RecordListResponse>>(`/records?${params}`)
-  },
-
-  // 获取今日记录
-  getToday: (deviceId: string) =>
-    api.get<unknown, ApiResponse<Record[]>>(`/records/today?device_id=${deviceId}`),
-
-  // 获取单条记录
-  getById: (recordId: string) =>
-    api.get<unknown, ApiResponse<Record>>(`/records/${recordId}`),
 }
 
 // ==================== 日记相关API ====================
