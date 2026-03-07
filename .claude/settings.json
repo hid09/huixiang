@@ -1,0 +1,15 @@
+{
+  "skills": [
+    {
+      "name": "xiaohongshu-copywriter",
+      "description": "小红书爆款文案写作专家，支持7种标题公式、5种写作风格",
+      "alias": ["xhs", "小红书", "xhs-copywriter"],
+      "path": ".claude/skills/xiaohongshu-copywriter/skill.yaml"
+    }
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(open:*)"
+    ]
+  }
+}

@@ -1,0 +1,286 @@
+/* 回响 - 设计系统变量 */
+/* 基于原型文件的黑白灰极简文学风格 */
+
+:root {
+  /* 背景色 */
+  --bg-primary: #FAFAFA;
+  --bg-secondary: #F0F0F0;
+  --bg-card: #FFFFFF;
+  --bg-mask: rgba(0, 0, 0, 0.5);
+
+  /* 文字色 */
+  --text-primary: #1A1A1A;
+  --text-secondary: #5C5C5C;
+  --text-tertiary: #999999;
+  --text-white: #FFFFFF;
+
+  /* 强调色 */
+  --accent: #1A1A1A;
+  --accent-light: #F0F0F0;
+  --accent-warm: #333333;
+
+  /* 边框色 */
+  --border: #E5E5E5;
+  --border-light: #F0F0F0;
+
+  /* 阴影 */
+  --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.08);
+
+  /* 圆角系统 - 大圆角风格 */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* 过渡 */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s ease;
+  --transition-slow: 0.35s ease;
+
+  /* 安全区域 */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* 页面内边距 */
+  --page-padding: 20px;
+  --page-padding-bottom: 100px;
+}
+
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 15px;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 纸张纹理背景 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.008;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#root {
+  min-height: 100vh;
+  padding-top: var(--safe-area-top);
+  padding-bottom: var(--safe-area-bottom);
+}
+
+/* 移动端容器 */
+.app-container {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  position: relative;
+  z-index: 1;
+}
+
+/* 页面基础样式 */
+.page {
+  min-height: 100vh;
+  padding: 24px var(--page-padding) var(--page-padding-bottom);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 页面切换动画 */
+.page-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 通用标题样式 - 使用衬线字体 */
+.title-serif {
+  font-family: 'Noto Serif SC', serif;
+  font-weight: 500;
+}
+
+/* 按钮基础样式 */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent);
+  color: var(--text-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-primary:hover {
+  background: var(--accent-warm);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* 次要按钮 */
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+/* 卡片基础样式 */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* 输入框基础样式 */
+.input {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  color: var(--text-primary);
+  resize: none;
+  outline: none;
+  transition: var(--transition);
+}
+
+.input:focus {
+  border-color: var(--text-secondary);
+}
+
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* 分隔线 */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+/* 标签样式 */
+.tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--bg-secondary);
+  color: var(--text-tertiary);
+  border-radius: 12px;
+}
+
+.tag-active {
+  background: var(--accent);
+  color: var(--text-white);
+  font-weight: 500;
+}
+
+/* 情绪标签 */
+.emotion-tag {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* 文学引语样式 */
+.quote {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.quote .highlight {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* 隐藏滚动条但保持滚动功能 */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  .page {
+    padding: 20px 16px var(--page-padding-bottom);
+  }
+}

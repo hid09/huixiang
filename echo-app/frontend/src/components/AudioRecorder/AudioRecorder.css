@@ -1,0 +1,228 @@
+/* 语音录制组件样式 */
+
+.audio-recorder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.recorder-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  margin-top: 20px;
+}
+
+/* 大语音按钮 */
+.voice-btn-large {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2A2A2A, #1A1A1A);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: var(--transition);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.voice-btn-large::before {
+  content: '';
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px solid rgba(26, 26, 26, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.voice-btn-large::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.voice-btn-large:hover {
+  transform: scale(1.02);
+}
+
+.voice-btn-large:active,
+.voice-btn-large.recording {
+  background: linear-gradient(145deg, #3A3A3A, #2A2A2A);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.voice-btn-large.recording::before {
+  animation: pulse-ring 1.2s ease-out infinite;
+  border-color: rgba(26, 26, 26, 0.3);
+}
+
+@keyframes pulse-ring {
+  0% {
+    width: 160px;
+    height: 160px;
+    opacity: 1;
+  }
+  100% {
+    width: 240px;
+    height: 240px;
+    opacity: 0;
+  }
+}
+
+/* 麦克风图标 */
+.mic-icon {
+  width: 48px;
+  height: 48px;
+  fill: white;
+  transition: transform 0.2s ease;
+}
+
+.voice-btn-large.recording .mic-icon {
+  transform: scale(1.1);
+}
+
+/* 波形动画 */
+.wave-animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 48px;
+}
+
+.wave-bar {
+  width: 6px;
+  background: white;
+  border-radius: 3px;
+  transition: height 0.1s ease;
+  animation: wave-pulse 0.5s ease-in-out infinite alternate;
+}
+
+.wave-bar:nth-child(1) { animation-delay: 0s; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.1s; }
+.wave-bar:nth-child(5) { animation-delay: 0s; }
+
+@keyframes wave-pulse {
+  0% {
+    transform: scaleY(0.5);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* 录音状态 */
+.recorder-status {
+  text-align: center;
+}
+
+.recording-time {
+  font-family: 'SF Mono', 'Monaco', monospace;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.recording-hint {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+.recorder-hint {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.recorded-info {
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+/* 录音预览 */
+.audio-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  margin-top: 24px;
+}
+
+.audio-player {
+  width: 100%;
+  height: 40px;
+  border-radius: var(--radius-sm);
+}
+
+/* 重新录制按钮 */
+.btn-rerecord {
+  padding: 10px 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-rerecord:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+/* 时长警告 */
+.duration-warning {
+  color: #D97706;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* 权限提示 */
+.permission-guide {
+  background: #FFF7ED;
+  border: 1px solid #FDBA74;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.permission-guide-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #9A3412;
+  margin-bottom: 8px;
+}
+
+.permission-guide-text {
+  font-size: 13px;
+  color: #C2410C;
+  line-height: 1.5;
+}

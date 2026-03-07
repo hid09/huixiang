@@ -1,0 +1,59 @@
+/* 底部导航栏样式 - 基于原型设计 */
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: rgba(250, 247, 242, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 12px 24px 28px;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border);
+  z-index: 100;
+}
+
+.tab-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--text-tertiary);
+}
+
+.tab-bar-item svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--text-tertiary);
+  transition: var(--transition);
+}
+
+.tab-bar-item span {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  transition: var(--transition);
+}
+
+.tab-bar-item.active svg {
+  stroke: var(--accent);
+}
+
+.tab-bar-item.active span {
+  color: var(--accent);
+}
+
+.tab-bar-item:hover svg {
+  stroke: var(--accent);
+}
+
+.tab-bar-item:hover span {
+  color: var(--accent);
+}

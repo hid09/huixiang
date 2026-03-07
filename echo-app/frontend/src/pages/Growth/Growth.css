@@ -1,0 +1,728 @@
+/* 成长页样式 - 基于原型设计 */
+
+.growth-page {
+  min-height: 100vh;
+  padding: 24px 20px 100px;
+  background: var(--bg-primary);
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* 页面头部 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0 24px;
+}
+
+.page-header h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+
+/* 标签切换 */
+.review-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.review-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.review-tab {
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.review-tab.active {
+  background: #1A1A1A;
+  color: white;
+  border-color: #1A1A1A;
+}
+
+.review-tab:hover:not(.active) {
+  border-color: var(--accent);
+}
+
+/* 统计概览 */
+.review-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 24px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.review-stat-item {
+  text-align: center;
+}
+
+.review-stat-value {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.review-stat-label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+/* 图表卡片 */
+.review-chart {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.review-chart-title {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 情绪日历 */
+.mood-calendar {
+  padding: 16px 0 8px;
+}
+
+.mood-calendar-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mood-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mood-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.mood-circle:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mood-circle.mood-calm {
+  background: #E8F0F0;
+}
+
+.mood-circle.mood-happy {
+  background: #FFF4E0;
+}
+
+.mood-circle.mood-sad {
+  background: #E8E8F0;
+}
+
+.mood-circle.mood-empty {
+  background: var(--bg-secondary);
+  border: 2px dashed var(--border);
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+.mood-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* 情绪图例 */
+.mood-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.mood-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.mood-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.mood-legend-dot.calm { background: #E8F0F0; }
+.mood-legend-dot.happy { background: #FFF4E0; }
+.mood-legend-dot.sad { background: #E8E8F0; }
+
+/* 情绪总结 */
+.mood-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.mood-summary strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.mood-positive {
+  color: #2D8A4E;
+}
+
+.mood-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+  max-width: 120px;
+}
+
+.mood-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2D8A4E, #4CAF50);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* 关键词云 */
+.keywords-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  line-height: 1.8;
+}
+
+.keyword-tag {
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border-radius: 18px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.keyword-tag.large {
+  background: #1A1A1A;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 16px;
+}
+
+/* 建议区块 */
+.suggestion-section {
+  background: #F8F8F8;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+
+.suggestion-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.suggestion-item {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  padding-left: 16px;
+  position: relative;
+}
+
+.suggestion-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 15px;
+  color: var(--text-tertiary);
+  margin-bottom: 8px;
+}
+
+.empty-hint {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* ========== 月度回顾样式 ========== */
+
+/* 月度概览卡片 */
+.monthly-overview {
+  background: #1A1A1A;
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  color: white;
+  text-align: center;
+}
+
+.monthly-overview-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.monthly-stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.monthly-stat {
+  text-align: center;
+}
+
+.monthly-stat-value {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.monthly-stat-unit {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-left: 2px;
+}
+
+.monthly-stat-label {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+/* 情绪趋势区块 */
+.mood-trend-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.mood-trend-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mood-trend-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 80px;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.mood-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.mood-bar-visual {
+  width: 40px;
+  background: linear-gradient(to top, #E0E0E0, #F5F5F5);
+  border-radius: 6px;
+  transition: height 0.3s ease;
+}
+
+.mood-bar-visual.high {
+  background: linear-gradient(to top, #1A1A1A, #4A4A4A);
+}
+
+.mood-bar-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.mood-trend-summary {
+  display: flex;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.mood-trend-half {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.mood-trend-half strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 关注点变化 */
+.focus-compare-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.focus-compare-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.focus-compare-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.focus-month {
+  flex: 1;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: var(--bg-secondary);
+}
+
+.focus-month-label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.focus-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.focus-tag {
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+}
+
+.focus-tag.old {
+  background: #E0E0E0;
+  color: #666;
+}
+
+.focus-tag.new {
+  background: #1A1A1A;
+  color: white;
+}
+
+.focus-insight {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* 行为习惯变化 */
+.habit-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.habit-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.habit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+}
+
+.habit-icon {
+  font-size: 24px;
+}
+
+.habit-info {
+  flex: 1;
+}
+
+.habit-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.habit-detail {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.habit-status {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.habit-status.up {
+  color: #2D8A4E;
+}
+
+.habit-status.warning {
+  color: #D97706;
+}
+
+/* 认知/观点变化 - 月度 */
+.cognitive-monthly-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.cognitive-monthly-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cognitive-monthly-topic {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.cognitive-monthly-compare {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cognitive-monthly-item {
+  flex: 1;
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.cognitive-monthly-item.old {
+  background: #EDEDED;
+}
+
+.cognitive-monthly-item.old .cognitive-monthly-text {
+  color: #666;
+  font-style: italic;
+}
+
+.cognitive-monthly-item.new {
+  background: #1A1A1A;
+}
+
+.cognitive-monthly-item.new .cognitive-monthly-label {
+  color: rgba(255,255,255,0.6);
+}
+
+.cognitive-monthly-item.new .cognitive-monthly-text {
+  color: white;
+}
+
+.cognitive-monthly-label {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.cognitive-monthly-text {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cognitive-monthly-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cognitive-monthly-arrow svg {
+  width: 20px;
+  height: 20px;
+  stroke: #1A1A1A;
+  fill: none;
+  stroke-width: 2;
+}
+
+.cognitive-monthly-insight {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+/* 月度建议 */
+.monthly-suggestion-section {
+  background: #F8F8F8;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  border: 1px solid var(--border);
+}
+
+.monthly-suggestion-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.monthly-suggestion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.monthly-suggestion-item {
+  padding: 16px;
+  background: white;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.monthly-suggestion-num {
+  width: 24px;
+  height: 24px;
+  background: #1A1A1A;
+  color: white;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.monthly-suggestion-head {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.monthly-suggestion-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}

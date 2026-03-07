@@ -1,0 +1,912 @@
+{
+  "测试时间": "2026-03-06 11:03:32",
+  "情感识别_基础": {
+    "passed": 17,
+    "failed": 33,
+    "details": [
+      {
+        "id": "E-01",
+        "text": "今天发工资了，还涨了10%，太开心了！",
+        "expected": {
+          "emotion": "开心",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "开心",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-02",
+        "text": "今天什么也没干，就躺着发呆，也挺好。",
+        "expected": {
+          "emotion": "平静",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-03",
+        "text": "被领导批评了，觉得自己好没用。",
+        "expected": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-04",
+        "text": "下周有个重要汇报，好担心讲不好。",
+        "expected": {
+          "emotion": "焦虑",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "焦虑",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-05",
+        "text": "产品开发还是要遵循定好的规则。",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-06",
+        "text": "和朋友去游乐园玩了一整天，太刺激了！",
+        "expected": {
+          "emotion": "兴奋",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "兴奋",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-07",
+        "text": "他居然骗了我，我再也不想理他了。",
+        "expected": {
+          "emotion": "愤怒",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "失望",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-08",
+        "text": "一个人过节，有点孤单。",
+        "expected": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "孤独",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-09",
+        "text": "Web coding最重要的就是要先做计划。",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-10",
+        "text": "考试考了满分，努力没白费！",
+        "expected": {
+          "emotion": "兴奋",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-11",
+        "text": "每天早上起来都能看到日出，真美。",
+        "expected": {
+          "emotion": "平静",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-12",
+        "text": "听说老同学升职了，替他高兴。",
+        "expected": {
+          "emotion": "开心",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "开心",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-13",
+        "text": "又要加班，好烦。",
+        "expected": {
+          "emotion": "烦躁",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "烦躁",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-14",
+        "text": "今天周三，买了杯咖啡。",
+        "expected": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-15",
+        "text": "明天要下雨，记得带伞。",
+        "expected": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-16",
+        "text": "看到一只流浪猫，好可怜。",
+        "expected": {
+          "emotion": "同情",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-17",
+        "text": "爸妈身体健康，是我最大的心愿。",
+        "expected": {
+          "emotion": "安心",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "感激",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-18",
+        "text": "新工作适应得不错，同事都很好。",
+        "expected": {
+          "emotion": "满意",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-19",
+        "text": "今天被路人撞了一下，那人连对不起都没说。",
+        "expected": {
+          "emotion": "不爽",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-20",
+        "text": "连续几天失眠，好痛苦。",
+        "expected": {
+          "emotion": "痛苦",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "疲惫",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-21",
+        "text": "终于把拖延很久的任务完成了。",
+        "expected": {
+          "emotion": "轻松",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-22",
+        "text": "听到一首老歌，想起很多往事。",
+        "expected": {
+          "emotion": "怀念",
+          "type": "回忆过去"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "回忆过去"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-23",
+        "text": "看到别人都那么优秀，自己好差劲。",
+        "expected": {
+          "emotion": "自卑",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-24",
+        "text": "他向我表白了，心跳得好快。",
+        "expected": {
+          "emotion": "害羞",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "兴奋",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-25",
+        "text": "明天要去旅游了，好期待！",
+        "expected": {
+          "emotion": "期待",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "期待",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-26",
+        "text": "被最好的朋友误解了，好难受。",
+        "expected": {
+          "emotion": "委屈",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "失望",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-27",
+        "text": "第一次上台演讲，腿都在抖。",
+        "expected": {
+          "emotion": "紧张",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "恐惧",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-28",
+        "text": "获奖了，感觉一切付出都值得。",
+        "expected": {
+          "emotion": "自豪",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-29",
+        "text": "今天天气阴沉沉的，心情也跟着不好。",
+        "expected": {
+          "emotion": "压抑",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-30",
+        "text": "他们又在背后说我坏话。",
+        "expected": {
+          "emotion": "厌恶",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-31",
+        "text": "下周要完成这个功能开发。",
+        "expected": {
+          "emotion": "平静",
+          "type": "计划目标"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "计划/目标"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-32",
+        "text": "看着窗外的雨，发呆了一下午。",
+        "expected": {
+          "emotion": "忧郁",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-33",
+        "text": "又老了一岁，时间过得好快。",
+        "expected": {
+          "emotion": "感伤",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-34",
+        "text": "看到孩子第一次走路，好感动。",
+        "expected": {
+          "emotion": "感动",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-35",
+        "text": "今天被老板当众表扬了，有点小骄傲。",
+        "expected": {
+          "emotion": "得意",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-36",
+        "text": "遇到多年不见的老友，聊得很开心。",
+        "expected": {
+          "emotion": "愉悦",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "开心",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-37",
+        "text": "电梯坏了，爬了20层楼，累死了。",
+        "expected": {
+          "emotion": "疲惫",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "疲惫",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-38",
+        "text": "听说家乡下大雪了，想家了。",
+        "expected": {
+          "emotion": "思念",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "低落",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-39",
+        "text": "高考成绩出来了，没考上理想的大学。",
+        "expected": {
+          "emotion": "失望",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "失望",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-40",
+        "text": "马上就要见到他了，好紧张又好期待。",
+        "expected": {
+          "emotion": "忐忑",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "期待",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-41",
+        "text": "减肥一周，瘦了三斤！",
+        "expected": {
+          "emotion": "成就感",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "兴奋",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-42",
+        "text": "被猫抓了一下，要去打疫苗。",
+        "expected": {
+          "emotion": "倒霉",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "事实陈述/计划目标"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-43",
+        "text": "今天的会议重点讨论了产品方向。",
+        "expected": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "事实陈述"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-44",
+        "text": "终于把房间收拾干净了，心情都好了。",
+        "expected": {
+          "emotion": "舒畅",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-45",
+        "text": "路上堵车，要迟到了，急死了。",
+        "expected": {
+          "emotion": "焦急",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "焦虑",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-46",
+        "text": "想起小时候在奶奶家的日子，那时候真快乐。",
+        "expected": {
+          "emotion": "怀念",
+          "type": "回忆过去"
+        },
+        "actual": {
+          "emotion": "开心",
+          "type": "回忆过去"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-47",
+        "text": "下个月要开始健身计划了。",
+        "expected": {
+          "emotion": "平静",
+          "type": "计划目标"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "计划/目标"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-48",
+        "text": "周末打算去爬山。",
+        "expected": {
+          "emotion": "平静",
+          "type": "计划目标"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "计划/目标"
+        },
+        "passed": false
+      },
+      {
+        "id": "E-49",
+        "text": "被陌生人帮助了，好温暖。",
+        "expected": {
+          "emotion": "感激",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "感激",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "E-50",
+        "text": "这个难题终于解出来了，如释重负。",
+        "expected": {
+          "emotion": "解脱",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "满足",
+          "type": "情绪表达"
+        },
+        "passed": false
+      }
+    ]
+  },
+  "情感识别_观点误判": {
+    "passed": 9,
+    "failed": 1,
+    "details": [
+      {
+        "id": "V-01",
+        "text": "产品开发必须遵循用户反馈，否则会走偏。",
+        "note": "强调词'必须'不应被误判为焦虑",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-02",
+        "text": "我觉得团队协作最重要的就是信任。",
+        "note": "'最重要'不应被误判为压力",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-03",
+        "text": "这个方案绝对不能再改了，已经定好了。",
+        "note": "'绝对'在观点语境下为中性",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-04",
+        "text": "我受不了这种拖延的工作方式。",
+        "note": "对照：含'受不了'但为情绪表达",
+        "expected": {
+          "emotion": "不满",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "烦躁",
+          "type": "情绪表达"
+        },
+        "passed": false
+      },
+      {
+        "id": "V-05",
+        "text": "做产品不能只考虑用户体验，也要考虑商业价值。",
+        "note": "'不能'用于表达原则",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-06",
+        "text": "每天加班到10点，实在受不了了。",
+        "note": "对照：相同词在不同语境",
+        "expected": {
+          "emotion": "疲惫",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "疲惫",
+          "type": "情绪表达"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-07",
+        "text": "必须承认，我们之前的决策有问题。",
+        "note": "'必须承认'用于陈述事实",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-08",
+        "text": "这个bug必须今天修复，否则影响上线。",
+        "note": "工作场景的理性判断",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-09",
+        "text": "我强烈建议大家每周做一次复盘。",
+        "note": "'强烈建议'是观点",
+        "expected": {
+          "emotion": "平静",
+          "type": "观点分享"
+        },
+        "actual": {
+          "emotion": "平静",
+          "type": "观点分享/事实陈述/计划目标"
+        },
+        "passed": true
+      },
+      {
+        "id": "V-10",
+        "text": "他说的那句话让我强烈地感到不被尊重。",
+        "note": "对照：相同词用于情绪描述",
+        "expected": {
+          "emotion": "愤怒",
+          "type": "情绪表达"
+        },
+        "actual": {
+          "emotion": "愤怒",
+          "type": "情绪表达"
+        },
+        "passed": true
+      }
+    ]
+  },
+  "认知变化": {
+    "passed": 10,
+    "failed": 0,
+    "details": [
+      {
+        "id": "C-01",
+        "records": [
+          "我特别害怕当众发言，一说话就紧张",
+          "今天部门会议我主动汇报了工作，虽然还有点紧张，但整体流畅，感觉比以前好多了"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-02",
+        "records": [
+          "加班太累了，感觉身体被掏空",
+          "现在学会了拒绝不必要的加班，身体好多了，和以前不一样了"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-03",
+        "records": [
+          "我觉得自己不够好，总在自我怀疑",
+          "最近发现自己其实挺厉害的，很多事都能做好，改变了之前的想法"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-04",
+        "records": [
+          "每天都很焦虑，担心未来",
+          "现在更关注当下，焦虑少多了，发现原来的担心是多余的"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-05",
+        "records": [
+          "新年目标：每天学习英语",
+          "今天没学英语，明天开始"
+        ],
+        "expected": false,
+        "actual": false,
+        "passed": true
+      },
+      {
+        "id": "C-06",
+        "records": [
+          "我觉得工作就是赚钱，没意义",
+          "工作其实也能带来成就感，发现我的想法变了"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-07",
+        "records": [
+          "我讨厌做家务",
+          "发现做家务可以放空，开始喜欢了，和以前不一样"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-08",
+        "records": [
+          "每天通勤两小时，太浪费时间了",
+          "现在利用通勤时间听书，很有收获，发现换个角度看就不一样了"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-09",
+        "records": [
+          "我觉得自己不够漂亮",
+          "现在觉得自信才是最美的，意识到以前的自己太在意别人的看法了"
+        ],
+        "expected": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "id": "C-10",
+        "records": [
+          "今天好累",
+          "还是好累"
+        ],
+        "expected": false,
+        "actual": false,
+        "passed": true
+      }
+    ]
+  },
+  "总通过率": "36/70 (51.4%)"
+}

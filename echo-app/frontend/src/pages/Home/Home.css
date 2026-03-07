@@ -1,0 +1,344 @@
+/* 首页样式 - 基于原型设计 */
+
+.home-page {
+  min-height: 100vh;
+  padding: 24px 20px 100px;
+  background: var(--bg-primary);
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* 顶部Logo */
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0 32px;
+}
+
+.logo {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 2px;
+}
+
+.logo span {
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-left: 4px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/* 欢迎区域 */
+.greeting {
+  margin-bottom: 32px;
+}
+
+.greeting-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.greeting-sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.greeting-sub strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 统计卡片 - 黑色背景 */
+.stats-card {
+  background: #1A1A1A;
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  margin-bottom: 28px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+
+.stats-label {
+  font-size: 13px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+  font-weight: 300;
+}
+
+.stats-number {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.stats-number span {
+  font-size: 16px;
+  font-weight: 300;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
+.stats-row {
+  display: flex;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.stats-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats-item-value {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.stats-item-label {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* 快捷记录按钮 */
+.record-btn-container {
+  margin-bottom: 32px;
+}
+
+.record-btn {
+  width: 100%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.record-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--accent-light) 0%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.record-btn:hover::before {
+  opacity: 1;
+}
+
+.record-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.record-icon {
+  width: 56px;
+  height: 56px;
+  background: #1A1A1A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.record-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.record-text {
+  position: relative;
+  z-index: 1;
+  text-align: left;
+}
+
+.record-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.record-hint {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* 区块标题 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 记录列表 */
+.record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.record-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.record-item:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-soft);
+}
+
+.record-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.record-time {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.record-emotion {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: #F0F0F0;
+  color: #1A1A1A;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.record-content {
+  font-size: 15px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 可点击的记录卡片（内容溢出时） */
+.record-item-clickable {
+  cursor: pointer;
+}
+
+.record-item-clickable:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-soft);
+}
+
+/* 不可点击的记录卡片 */
+.record-item:not(.record-item-clickable) {
+  cursor: default;
+}
+
+.record-item:not(.record-item-clickable):hover {
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+/* 空状态引导 */
+.empty-state {
+  text-align: center;
+  padding: 40px 30px 50px;
+  margin-top: 20px;
+}
+
+.empty-state-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.empty-state-text .highlight {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.empty-state-author {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* 旧样式兼容 - 后续可移除 */
+.home-page .subtitle {
+  display: none;
+}
+
+.home-page .stats-main {
+  display: none;
+}
+
+.home-page .stats-divider {
+  display: none;
+}
+
+.home-page .stats-detail {
+  display: none;
+}
+
+.home-page .record-actions {
+  display: none;
+}
+
+.home-page .voice-btn,
+.home-page .text-btn {
+  display: none;
+}

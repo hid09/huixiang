@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>登录页设计预览</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FAFAFA;
+      --bg-secondary: #F0F0F0;
+      --bg-card: #FFFFFF;
+      --text-primary: #1A1A1A;
+      --text-secondary: #5C5C5C;
+      --text-tertiary: #999999;
+      --accent: #1A1A1A;
+      --border: #E5E5E5;
+      --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.04);
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 移动端容器 */
+    .login-page {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 80px 24px 60px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 标题区域 */
+    .login-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .login-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 42px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 12px;
+      margin-bottom: 12px;
+    }
+
+    .login-subtitle {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      letter-spacing: 3px;
+    }
+
+    /* 引语区域 */
+    .login-quote {
+      text-align: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      line-height: 2;
+    }
+
+    /* 表单区域 */
+    .login-form {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 18px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      color: var(--text-primary);
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--text-secondary);
+      background: var(--bg-card);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 18px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* 底部链接 */
+    .login-footer {
+      text-align: center;
+      margin-top: auto;
+      padding-top: 40px;
+    }
+
+    .login-footer-text {
+      font-size: 14px;
+      color: var(--text-tertiary);
+    }
+
+    .login-link {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+      text-decoration: none;
+      margin-left: 4px;
+      transition: var(--transition);
+    }
+
+    .login-link:hover {
+      opacity: 0.7;
+    }
+
+    /* 标注说明 */
+    .note {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1A1A1A;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body>
+  <div class="note">📝 登录页设计预览 - 新方案</div>
+
+  <div class="login-page">
+    <!-- 标题区 -->
+    <div class="login-header">
+      <h1 class="login-title">回响</h1>
+      <p class="login-subtitle">陪你听见自己</p>
+    </div>
+
+    <!-- 引语 -->
+    <div class="login-quote">
+      每一次记录，都是与自己对话的开始
+    </div>
+
+    <!-- 表单 -->
+    <form class="login-form" onsubmit="return false;">
+      <input
+        type="text"
+        class="form-input"
+        placeholder="用户名"
+      />
+
+      <input
+        type="password"
+        class="form-input"
+        placeholder="密码"
+      />
+
+      <button type="submit" class="btn-primary">登录</button>
+    </form>
+
+    <!-- 底部链接 -->
+    <div class="login-footer">
+      <span class="login-footer-text">还没有账号？</span>
+      <a href="#" class="login-link">立即注册</a>
+    </div>
+  </div>
+</body>
+</html>

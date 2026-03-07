@@ -1,0 +1,29 @@
+/* 加载状态组件样式 - 基于原型设计 */
+
+.loading-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  z-index: 999;
+}
+
+.loading-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-top: 12px;
+}

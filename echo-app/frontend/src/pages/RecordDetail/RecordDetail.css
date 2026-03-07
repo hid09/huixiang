@@ -1,0 +1,166 @@
+/* 记录详情页样式 - 与日记详情页统一风格 */
+
+.record-detail-page {
+  min-height: 100vh;
+  padding: 0px 20px 100px;
+  background: var(--bg-primary);
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* 页面头部导航 */
+.record-page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0px;
+  padding-top: 12px;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-secondary);
+  margin-left: -20px;
+}
+
+.back-btn:hover {
+  background: var(--bg-secondary);
+}
+
+.back-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.record-page-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 时间标题区 */
+.record-detail-header {
+  margin-bottom: 16px;
+}
+
+.record-detail-date {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 4px;
+}
+
+.record-detail-time {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 情绪区块 */
+.emotion-section {
+  margin-bottom: 16px;
+}
+
+.emotion-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+/* 情绪颜色 */
+.emotion-positive { background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%); }
+.emotion-negative { background: linear-gradient(135deg, #f44336 0%, #E91E63 100%); }
+.emotion-neutral { background: linear-gradient(135deg, #607D8B 0%, #90A4AE 100%); }
+.emotion-mixed { background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%); }
+.emotion-happy { background: linear-gradient(135deg, #FF9800 0%, #FFC107 100%); }
+.emotion-sad { background: linear-gradient(135deg, #3F51B5 0%, #2196F3 100%); }
+.emotion-angry { background: linear-gradient(135deg, #f44336 0%, #FF5722 100%); }
+.emotion-anxious { background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%); }
+.emotion-excited { background: linear-gradient(135deg, #E91E63 0%, #FF4081 100%); }
+.emotion-calm { background: linear-gradient(135deg, #009688 0%, #4DB6AC 100%); }
+
+/* 记录内容区块 - 复用日记详情页样式 */
+.diary-section {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.diary-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.diary-section-icon {
+  font-size: 16px;
+}
+
+.diary-section-content {
+  font-size: 16px;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.content-text {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--text-primary);
+}
+
+/* 元信息区块 */
+.record-detail-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+.meta-label {
+  color: var(--text-tertiary);
+}
+
+.meta-value {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 15px;
+  color: var(--text-tertiary);
+}

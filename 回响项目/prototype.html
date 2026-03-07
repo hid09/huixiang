@@ -1,0 +1,3041 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回响 - 陪你听见自己</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #FAFAFA;
+      --bg-secondary: #F0F0F0;
+      --bg-card: #FFFFFF;
+      --text-primary: #1A1A1A;
+      --text-secondary: #5C5C5C;
+      --text-tertiary: #999999;
+      --accent: #1A1A1A;
+      --accent-light: #F0F0F0;
+      --accent-warm: #333333;
+      --border: #E5E5E5;
+      --shadow-soft: 0 2px 20px rgba(0, 0, 0, 0.04);
+      --shadow-hover: 0 8px 40px rgba(0, 0, 0, 0.08);
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 纸张纹理背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.008;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 移动端容器 */
+    .app-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 页面切换 */
+    .page {
+      display: none;
+      min-height: 100vh;
+      padding: 24px 20px 100px;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 顶部导航 */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 32px;
+    }
+
+    .logo {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      font-weight: 300;
+      color: var(--text-secondary);
+      margin-left: 4px;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-secondary);
+    }
+
+    .icon-btn:hover {
+      background: var(--accent-light);
+      border-color: var(--accent);
+    }
+
+    /* 欢迎区域 */
+    .greeting {
+      margin-bottom: 32px;
+    }
+
+    .greeting-text {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .greeting-sub {
+      font-size: 15px;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .greeting-sub strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* 统计卡片 */
+    .stats-card {
+      background: #1A1A1A;
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 28px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .stats-label {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+      font-weight: 300;
+    }
+
+    .stats-number {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 48px;
+      font-weight: 500;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .stats-number span {
+      font-size: 16px;
+      font-weight: 300;
+      margin-left: 4px;
+      opacity: 0.9;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .stats-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stats-item-value {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .stats-item-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 2px;
+    }
+
+    /* 快捷记录按钮 */
+    .record-btn-container {
+      margin-bottom: 32px;
+    }
+
+    .record-btn {
+      width: 100%;
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .record-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--accent-light) 0%, rgba(255,255,255,0) 100%);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .record-btn:hover::before {
+      opacity: 1;
+    }
+
+    .record-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .record-icon {
+      width: 56px;
+      height: 56px;
+      background: #1A1A1A;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .record-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    .record-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .record-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .record-hint {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    /* 今日记录 */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+
+    /* 记录列表 */
+    .record-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .record-item {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .record-item:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .record-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .record-time {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .record-emotion {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: #F0F0F0;
+      color: #1A1A1A;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .record-content {
+      font-size: 15px;
+      color: var(--text-primary);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* 空状态引导 */
+    .empty-state {
+      text-align: center;
+      padding: 40px 30px 50px;
+      margin-top: 20px;
+    }
+
+    .empty-state-text {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      line-height: 2;
+      color: var(--text-secondary);
+      font-weight: 300;
+    }
+
+    .empty-state-text .highlight {
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+
+    .empty-state-author {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* 底部导航 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      background: rgba(250, 247, 242, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 12px 24px 28px;
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 8px 16px;
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text-tertiary);
+      transition: var(--transition);
+    }
+
+    .nav-item span {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      transition: var(--transition);
+    }
+
+    .nav-item.active svg {
+      stroke: var(--accent);
+    }
+
+    .nav-item.active span {
+      color: var(--accent);
+    }
+
+    .nav-item:hover svg {
+      stroke: var(--accent);
+    }
+
+    .nav-item:hover span {
+      color: var(--accent);
+    }
+
+    /* ========== 记录页面 ========== */
+    .record-page-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .back-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      background: var(--bg-secondary);
+    }
+
+    .record-page-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    /* 输入区域 */
+    .input-area {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .input-label {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+    }
+
+    .text-input {
+      width: 100%;
+      min-height: 120px;
+      border: none;
+      outline: none;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      color: var(--text-primary);
+      background: transparent;
+      resize: none;
+      line-height: 1.7;
+    }
+
+    .text-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    /* 语音按钮 - 录完即发版本 */
+    /* 录音页面时间问候 */
+    .record-greeting {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .record-greeting-time {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .record-greeting-hint {
+      font-size: 20px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .voice-section {
+      text-align: center;
+      padding: 40px 0 40px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .voice-btn-large {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2A2A2A, #1A1A1A);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: var(--transition);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      touch-action: manipulation;
+    }
+
+    .voice-btn-large::before {
+      content: '';
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 2px solid rgba(26, 26, 26, 0.15);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .voice-btn-large::after {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 1px solid rgba(26, 26, 26, 0.08);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .voice-btn-large:hover {
+      transform: scale(1.02);
+    }
+
+    .voice-btn-large.recording {
+      background: linear-gradient(145deg, #3A3A3A, #2A2A2A);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .voice-btn-large.recording::before {
+      animation: pulse-ring 1.2s ease-out infinite;
+      border-color: rgba(26, 26, 26, 0.3);
+    }
+
+    @keyframes pulse-ring {
+      0% {
+        width: 160px;
+        height: 160px;
+        opacity: 1;
+      }
+      100% {
+        width: 240px;
+        height: 240px;
+        opacity: 0;
+      }
+    }
+
+    .voice-btn-large svg {
+      width: 48px;
+      height: 48px;
+      fill: white;
+      transition: transform 0.2s ease;
+    }
+
+    .voice-btn-large.recording svg {
+      transform: scale(1.1);
+    }
+
+    .voice-hint-large {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-top: 24px;
+      font-weight: 400;
+    }
+
+    .voice-hint-large .hint-time {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 转写状态 */
+    .transcribing-state {
+      text-align: center;
+      padding: 80px 0 60px;
+    }
+
+    .transcribing-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      background: var(--bg-secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .transcribing-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: var(--text-secondary);
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .transcribing-text {
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+
+    /* 转写结果 */
+    .transcribe-result {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 20px 16px;
+      border: 1px solid var(--border);
+    }
+
+    .transcribe-result-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .transcribe-result-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .transcribe-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .transcribe-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-rerecord {
+      background: var(--bg-secondary);
+      border: none;
+      color: var(--text-secondary);
+    }
+
+    .btn-rerecord:hover {
+      background: var(--border);
+    }
+
+    .btn-confirm {
+      background: #1A1A1A;
+      border: none;
+      color: white;
+    }
+
+    .btn-confirm:hover {
+      background: #333;
+    }
+
+    /* 分隔线 */
+    .divider-line {
+      height: 1px;
+      background: var(--border);
+      margin: 0 24px 20px;
+      opacity: 0.5;
+    }
+
+    /* 文字输入备选 */
+    .text-input-section {
+      padding: 0 16px 30px;
+    }
+
+    .text-input-toggle {
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+
+    .text-input-toggle:hover {
+      border-color: var(--text-tertiary);
+      color: var(--text-primary);
+    }
+
+    .text-input-toggle svg {
+      width: 16px;
+      height: 16px;
+      vertical-align: middle;
+      margin-right: 8px;
+      fill: currentColor;
+    }
+
+    .hidden-text-input {
+      display: none;
+    }
+
+    .hidden-text-input.show {
+      display: block;
+    }
+
+    .hidden-text-input textarea {
+      width: 100%;
+      min-height: 100px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 15px;
+      resize: none;
+      outline: none;
+      background: var(--bg-card);
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .hidden-text-input textarea:focus {
+      border-color: var(--text-secondary);
+    }
+
+    .hidden-text-input button {
+      width: 100%;
+      padding: 14px;
+      background: #1A1A1A;
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Noto Sans SC', sans-serif;
+    }
+
+    .hidden-text-input button:hover {
+      background: #333;
+    }
+
+    /* ========== 日记列表页面 ========== */
+    .diary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .diary-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .diary-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .diary-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .diary-date {
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    .diary-date-day {
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--text-primary);
+    }
+
+    .diary-date-month {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    .diary-emotion {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: #F0F0F0;
+      border-radius: 20px;
+    }
+
+    .diary-emotion-icon {
+      font-size: 16px;
+    }
+
+    .diary-emotion-text {
+      font-size: 13px;
+      color: #1A1A1A;
+      font-weight: 500;
+    }
+
+    .diary-preview {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .diary-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .diary-tag {
+      font-size: 12px;
+      padding: 4px 10px;
+      background: var(--bg-secondary);
+      color: var(--text-tertiary);
+      border-radius: 12px;
+    }
+
+    /* ========== 日记详情页面 ========== */
+    .diary-detail-header {
+      margin-bottom: 32px;
+    }
+
+    .diary-detail-date {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .diary-detail-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .diary-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .diary-section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+    }
+
+    .diary-section-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .diary-section-icon svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .diary-section-content {
+      font-size: 16px;
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* 认知变化卡片 */
+    .cognitive-card {
+      background: #F8F8F8;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+      border: 1px solid #E5E5E5;
+    }
+
+    .cognitive-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #1A1A1A;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .cognitive-header svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .cognitive-compare {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .cognitive-item {
+      flex: 1;
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cognitive-old {
+      background: #EDEDED;
+    }
+
+    .cognitive-old .cognitive-text {
+      color: #666;
+      font-style: italic;
+    }
+
+    .cognitive-new {
+      background: #1A1A1A;
+    }
+
+    .cognitive-new .cognitive-date {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .cognitive-new .cognitive-text {
+      color: white;
+    }
+
+    .cognitive-date {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cognitive-text {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .cognitive-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cognitive-arrow svg {
+      width: 20px;
+      height: 20px;
+      fill: #1A1A1A;
+    }
+
+    .cognitive-insight {
+      margin-top: 16px;
+      padding: 16px;
+      background: white;
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      border-left: 3px solid #1A1A1A;
+    }
+
+    /* 结束语 */
+    .closing-message {
+      text-align: center;
+      padding: 32px 0;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    /* 日期分割线 */
+    .date-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0 16px;
+    }
+
+    .date-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .date-divider-text {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      font-size: 15px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .empty-hint {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    /* ========== 登录页面 ========== */
+    .login-page {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px 24px;
+      background: var(--bg-primary);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .login-logo h1 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 36px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+
+    .login-logo p {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      letter-spacing: 1px;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 18px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .login-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .login-code-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .login-code-btn {
+      padding: 18px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      color: var(--text-primary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .login-code-btn:hover {
+      border-color: var(--accent);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 18px;
+      background: #1A1A1A;
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-md);
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: var(--transition);
+    }
+
+    .login-btn:hover {
+      background: #333333;
+    }
+
+    .login-terms {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .login-terms a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    /* ========== 回顾页面 ========== */
+    .review-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .review-tab {
+      padding: 10px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .review-tab.active {
+      background: #1A1A1A;
+      color: white;
+      border-color: #1A1A1A;
+    }
+
+    .review-tab:hover:not(.active) {
+      border-color: var(--accent);
+    }
+
+    .review-stats {
+      display: flex;
+      justify-content: space-around;
+      padding: 24px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .review-stat-item {
+      text-align: center;
+    }
+
+    .review-stat-value {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .review-stat-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    .review-chart {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .review-chart-title {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 情绪日历样式 */
+    .mood-calendar {
+      padding: 16px 0 8px;
+    }
+
+    .mood-calendar-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mood-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mood-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .mood-circle:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .mood-circle.mood-calm {
+      background: #E8F0F0;
+    }
+
+    .mood-circle.mood-happy {
+      background: #FFF4E0;
+    }
+
+    .mood-circle.mood-sad {
+      background: #E8E8F0;
+    }
+
+    .mood-circle.mood-empty {
+      background: var(--bg-secondary);
+      border: 2px dashed var(--border);
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+
+    .mood-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .mood-legend {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .mood-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .mood-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .mood-legend-dot.calm { background: #E8F0F0; }
+    .mood-legend-dot.happy { background: #FFF4E0; }
+    .mood-legend-dot.sad { background: #E8E8F0; }
+
+    /* 积极情绪占比 */
+    .mood-summary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .mood-summary strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .mood-positive {
+      color: #2D8A4E;
+    }
+
+    .mood-bar {
+      flex: 1;
+      height: 6px;
+      background: var(--bg-secondary);
+      border-radius: 3px;
+      overflow: hidden;
+      max-width: 120px;
+    }
+
+    .mood-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2D8A4E, #4CAF50);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+
+    .keywords-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 20px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .keyword-tag {
+      padding: 8px 16px;
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .keyword-tag.large {
+      background: #1A1A1A;
+      color: white;
+      font-weight: 500;
+    }
+
+    .suggestion-section {
+      background: #F8F8F8;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .suggestion-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .suggestion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .suggestion-item {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .suggestion-item::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ========== 月度回顾样式 ========== */
+    .monthly-content {
+      display: none;
+    }
+
+    .monthly-content.active {
+      display: block;
+    }
+
+    .weekly-content {
+      display: block;
+    }
+
+    .weekly-content.hidden {
+      display: none;
+    }
+
+    /* 月度概览卡片 */
+    .monthly-overview {
+      background: #1A1A1A;
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    .monthly-overview-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .monthly-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .monthly-stat {
+      text-align: center;
+    }
+
+    .monthly-stat-value {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .monthly-stat-unit {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-left: 2px;
+    }
+
+    .monthly-stat-label {
+      font-size: 13px;
+      opacity: 0.7;
+      margin-top: 6px;
+    }
+
+    /* 情绪趋势区块 */
+    .mood-trend-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .mood-trend-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mood-trend-chart {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 80px;
+      margin-bottom: 16px;
+      padding: 0 8px;
+    }
+
+    .mood-bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .mood-bar-visual {
+      width: 100%;
+      max-width: 24px;
+      background: linear-gradient(to top, #E8E8F0, #FFF4E0);
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s ease;
+    }
+
+    .mood-bar-visual.high {
+      background: linear-gradient(to top, #E8F0F0, #4CAF50);
+    }
+
+    .mood-bar-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .mood-trend-summary {
+      display: flex;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .mood-trend-half {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .mood-trend-half strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* 关注点变化 */
+    .focus-compare-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .focus-compare-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .focus-compare-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .focus-month {
+      flex: 1;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+    }
+
+    .focus-month-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .focus-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .focus-tag {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+
+    .focus-tag.old {
+      background: #E8E8F0;
+      color: #666;
+    }
+
+    .focus-tag.new {
+      background: #1A1A1A;
+      color: white;
+    }
+
+    .focus-insight {
+      padding: 12px 16px;
+      background: #F8F8F8;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-left: 3px solid #1A1A1A;
+    }
+
+    /* 行为习惯变化 */
+    .habit-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .habit-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .habit-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .habit-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    .habit-icon {
+      font-size: 18px;
+    }
+
+    .habit-info {
+      flex: 1;
+    }
+
+    .habit-name {
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .habit-detail {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .habit-status {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .habit-status.up {
+      color: #2D8A4E;
+    }
+
+    .habit-status.warning {
+      color: #E6A23C;
+    }
+
+    /* 认知变化卡片 */
+    .cognitive-monthly-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+
+    .cognitive-monthly-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cognitive-monthly-topic {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-bottom: 12px;
+    }
+
+    .cognitive-monthly-compare {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .cognitive-monthly-item {
+      flex: 1;
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .cognitive-monthly-item.old {
+      background: #EDEDED;
+    }
+
+    .cognitive-monthly-item.old .cognitive-monthly-text {
+      color: #666;
+      font-style: italic;
+    }
+
+    .cognitive-monthly-item.new {
+      background: #1A1A1A;
+    }
+
+    .cognitive-monthly-item.new .cognitive-monthly-label {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .cognitive-monthly-item.new .cognitive-monthly-text {
+      color: white;
+    }
+
+    .cognitive-monthly-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .cognitive-monthly-text {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .cognitive-monthly-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cognitive-monthly-arrow svg {
+      width: 20px;
+      height: 20px;
+      fill: #1A1A1A;
+    }
+
+    .cognitive-monthly-insight {
+      padding: 12px 16px;
+      background: #F8F8F8;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--text-secondary);
+      border-left: 3px solid #1A1A1A;
+    }
+
+    /* 月度建议 */
+    .monthly-suggestion-section {
+      background: #F8F8F8;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .monthly-suggestion-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .monthly-suggestion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .monthly-suggestion-item {
+      padding: 16px;
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .monthly-suggestion-num {
+      width: 24px;
+      height: 24px;
+      background: #1A1A1A;
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 500;
+      margin-right: 8px;
+    }
+
+    .monthly-suggestion-head {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .monthly-suggestion-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      padding-left: 32px;
+    }
+
+    /* ========== 我的页面 ========== */
+    .profile-header {
+      text-align: center;
+      padding: 20px 0 32px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+      color: white;
+    }
+
+    .profile-name {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .profile-desc {
+      font-size: 14px;
+      color: var(--text-tertiary);
+    }
+
+    .settings-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .settings-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .settings-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-item:hover {
+      background: var(--bg-secondary);
+    }
+
+    .settings-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-item-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .settings-item-text {
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    .settings-item-arrow {
+      color: var(--text-tertiary);
+    }
+
+    .version-info {
+      text-align: center;
+      padding: 32px 0;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    /* ========== 提醒设置页面 ========== */
+    .reminder-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .reminder-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .reminder-title {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .reminder-toggle {
+      width: 50px;
+      height: 28px;
+      background: var(--bg-secondary);
+      border-radius: 14px;
+      position: relative;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .reminder-toggle.active {
+      background: #1A1A1A;
+    }
+
+    .reminder-toggle::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: var(--transition);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .reminder-toggle.active::after {
+      left: 24px;
+    }
+
+    .reminder-time {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+    }
+
+    .reminder-time-label {
+      font-size: 14px;
+      color: var(--text-tertiary);
+    }
+
+    .reminder-time-value {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .reminder-preview {
+      margin-top: 16px;
+      padding: 16px;
+      background: #F8F8F8;
+      border-radius: var(--radius-md);
+      border-left: 3px solid #1A1A1A;
+    }
+
+    .reminder-preview-label {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-bottom: 8px;
+    }
+
+    .reminder-preview-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- 登录页面 -->
+    <div class="login-page" id="login">
+      <div class="login-logo">
+        <h1>回响</h1>
+        <p>陪你听见自己</p>
+      </div>
+
+      <div class="login-form">
+        <input type="tel" class="login-input" placeholder="请输入手机号" maxlength="11">
+        <div class="login-code-row">
+          <input type="text" class="login-input" placeholder="验证码" maxlength="6" style="flex: 1;">
+          <button class="login-code-btn">获取验证码</button>
+        </div>
+        <button class="login-btn" onclick="showPage('home')">登录</button>
+      </div>
+
+      <div class="login-terms">
+        登录即表示同意 <a href="#">用户协议</a> 和 <a href="#">隐私政策</a>
+      </div>
+    </div>
+
+    <!-- 首页 -->
+    <div class="page active" id="home">
+      <div class="header">
+        <div class="logo">回响<span>·Echo</span></div>
+      </div>
+
+      <div class="greeting">
+        <div class="greeting-text">晚上好</div>
+        <div class="greeting-sub">坚持记录的第 <strong>127</strong> 天 · 今天想聊点什么？</div>
+      </div>
+
+      <div class="record-btn-container">
+        <button class="record-btn" onclick="showPage('record')">
+          <div class="record-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+          </div>
+          <div class="record-text">
+            <div class="record-title">开始记录</div>
+            <div class="record-hint">语音或文字，随时记录你的想法</div>
+          </div>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">今天的记录</div>
+      </div>
+
+      <div class="record-list">
+        <div class="record-item" onclick="showPage('diary-detail')">
+          <div class="record-item-header">
+            <span class="record-time">18:32</span>
+            <span class="record-emotion">平静 😌</span>
+          </div>
+          <div class="record-content">今天开会时发现自己不再像以前那样紧张了，感觉最近的准备还是有用的...</div>
+        </div>
+        <div class="record-item">
+          <div class="record-item-header">
+            <span class="record-time">12:15</span>
+            <span class="record-emotion">开心 😊</span>
+          </div>
+          <div class="record-content">中午和同事一起吃饭，聊了最近的项目，大家配合得越来越好了</div>
+        </div>
+        <div class="record-item">
+          <div class="record-item-header">
+            <span class="record-time">08:20</span>
+            <span class="record-emotion">平静 😌</span>
+          </div>
+          <div class="record-content">早上跑步时想到了一个新的项目点子，晚上有空记下来</div>
+        </div>
+      </div>
+
+      <!-- 空状态引导 -->
+      <div class="empty-state">
+        <div class="empty-state-text">
+          每一次记录，都是和自己的对话。<br>
+          哪怕只是简单的一句<span class="highlight">"今天有点累"</span>，<br>
+          也是有意义的。
+        </div>
+        <div class="empty-state-author">—— 回响</div>
+      </div>
+    </div>
+
+    <!-- 记录页面 -->
+    <div class="page" id="record">
+      <div class="record-page-header">
+        <button class="back-btn" onclick="showPage('home')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="record-page-title">新记录</div>
+      </div>
+
+      <!-- 语音录制区域（默认显示） -->
+      <div class="voice-section" id="voiceSection">
+        <div class="record-greeting">
+          <div class="record-greeting-time" id="recordGreetingTime">2月28日 · 晚上好</div>
+          <div class="record-greeting-hint">有什么想记录的吗？</div>
+        </div>
+        <button class="voice-btn-large" id="voiceBtnLarge">
+          <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+        </button>
+        <div class="voice-hint-large" id="voiceHint">
+          <span class="hint-main">按住说话，松开发送</span>
+          <div class="hint-time" id="recordTime" style="display: none;">00:00</div>
+        </div>
+      </div>
+
+      <!-- 转写中状态（隐藏） -->
+      <div class="transcribing-state" id="transcribingState" style="display: none;">
+        <div class="transcribing-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="transcribing-text">正在转写...</div>
+      </div>
+
+      <!-- 转写结果（隐藏） -->
+      <div id="transcribeResult" style="display: none;">
+        <div class="transcribe-result">
+          <div class="transcribe-result-label">转写结果</div>
+          <div class="transcribe-result-text" id="transcribeText">今天开会的时候突然想到，之前一直担心的那个问题好像没那么严重了...</div>
+          <div class="transcribe-actions">
+            <button class="btn-rerecord" onclick="resetToRecord()">重新录制</button>
+            <button class="btn-confirm" onclick="confirmRecord()">确认发送</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 分隔线 -->
+      <div class="divider-line" id="dividerLine"></div>
+
+      <!-- 文字输入备选 -->
+      <div class="text-input-section" id="textInputSection">
+        <button class="text-input-toggle" id="textInputToggle" onclick="toggleTextInput()">
+          <svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          想打字？点击这里
+        </button>
+        <div class="hidden-text-input" id="hiddenTextInput">
+          <textarea placeholder="今天过得怎么样？有什么想说的..."></textarea>
+          <button onclick="submitTextRecord()">发送</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 日记列表页面 -->
+    <div class="page" id="diary-list">
+      <div class="header">
+        <div class="logo">日记</div>
+        <div class="header-actions">
+          <button class="icon-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="diary-list">
+        <div class="diary-card" onclick="showPage('diary-detail')">
+          <div class="diary-card-header">
+            <div class="diary-date">
+              <div class="diary-date-day">26</div>
+              <div class="diary-date-month">2024年2月 · 周三</div>
+            </div>
+            <div class="diary-emotion">
+              <span class="diary-emotion-icon">😌</span>
+              <span class="diary-emotion-text">平静</span>
+            </div>
+          </div>
+          <div class="diary-preview">平静中带着一点期待。今天开会时发现自己不再像以前那样紧张了，晚上跑步时想到了一个新的项目点子...</div>
+          <div class="diary-tags">
+            <span class="diary-tag">工作</span>
+            <span class="diary-tag">跑步</span>
+            <span class="diary-tag">成长</span>
+          </div>
+        </div>
+
+        <div class="diary-card">
+          <div class="diary-card-header">
+            <div class="diary-date">
+              <div class="diary-date-day">25</div>
+              <div class="diary-date-month">2024年2月 · 周二</div>
+            </div>
+            <div class="diary-emotion">
+              <span class="diary-emotion-icon">😊</span>
+              <span class="diary-emotion-text">开心</span>
+            </div>
+          </div>
+          <div class="diary-preview">今天项目上线很顺利！团队配合超棒，感觉很有成就感。这段时间的辛苦都没有白费...</div>
+          <div class="diary-tags">
+            <span class="diary-tag">项目</span>
+            <span class="diary-tag">团队</span>
+          </div>
+        </div>
+
+        <div class="diary-card">
+          <div class="diary-card-header">
+            <div class="diary-date">
+              <div class="diary-date-day">24</div>
+              <div class="diary-date-month">2024年2月 · 周一</div>
+            </div>
+            <div class="diary-emotion">
+              <span class="diary-emotion-icon">😔</span>
+              <span class="diary-emotion-text">低落</span>
+            </div>
+          </div>
+          <div class="diary-preview">今天被客户批评了，心情有点低落。不过回家后和家人聊了聊，感觉好多了...</div>
+          <div class="diary-tags">
+            <span class="diary-tag">工作</span>
+            <span class="diary-tag">家人</span>
+          </div>
+        </div>
+
+        <div class="date-divider">
+          <div class="date-divider-line"></div>
+          <div class="date-divider-text">上周</div>
+          <div class="date-divider-line"></div>
+        </div>
+
+        <div class="diary-card">
+          <div class="diary-card-header">
+            <div class="diary-date">
+              <div class="diary-date-day">23</div>
+              <div class="diary-date-month">2024年2月 · 周日</div>
+            </div>
+            <div class="diary-emotion">
+              <span class="diary-emotion-icon">😊</span>
+              <span class="diary-emotion-text">开心</span>
+            </div>
+          </div>
+          <div class="diary-preview">周末和朋友去爬山了，空气很好，久违的放松。下山后一起吃了火锅，聊了很多...</div>
+          <div class="diary-tags">
+            <span class="diary-tag">朋友</span>
+            <span class="diary-tag">运动</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 日记详情页面 -->
+    <div class="page" id="diary-detail">
+      <div class="record-page-header">
+        <button class="back-btn" onclick="showPage('diary-list')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="record-page-title">日记详情</div>
+      </div>
+
+      <div class="diary-detail-header">
+        <div class="diary-detail-date">2024年2月26日 · 周三 · 第42天</div>
+        <div class="diary-detail-title">平静中带着一点期待</div>
+      </div>
+
+      <div class="diary-section">
+        <div class="diary-section-title">
+          <span class="diary-section-icon">💭</span>
+          今日情绪
+        </div>
+        <div class="diary-section-content">平静中带着一点期待。早上有些许紧张，但下午逐渐放松下来。</div>
+      </div>
+
+      <div class="diary-section">
+        <div class="diary-section-title">
+          <span class="diary-section-icon">📝</span>
+          今天发生了什么
+        </div>
+        <div class="diary-section-content">
+          • 早上开会时发现自己不再像以前那样紧张了<br>
+          • 晚上跑步时想到了一个新的项目点子<br>
+          • 和同事讨论了下周的方案，有了新的思路
+        </div>
+      </div>
+
+      <div class="diary-section">
+        <div class="diary-section-title">
+          <span class="diary-section-icon">✨</span>
+          思考碎片
+        </div>
+        <div class="diary-section-content">"原来紧张是因为太在意别人的看法，现在更在意自己的判断"</div>
+      </div>
+
+      <div class="diary-section">
+        <div class="diary-section-title">
+          <span class="diary-section-icon">🔍</span>
+          小发现
+        </div>
+        <div class="diary-section-content">你提到"跑步"时，情绪是积极的，这已经是本周第3次。</div>
+      </div>
+
+      <div class="cognitive-card">
+        <div class="cognitive-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+          </svg>
+          认知小变化
+        </div>
+        <div class="cognitive-compare">
+          <div class="cognitive-item cognitive-old">
+            <div class="cognitive-date">去年11月</div>
+            <div class="cognitive-text">"开会总是让我紧张，生怕说错话"</div>
+          </div>
+          <div class="cognitive-arrow">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <div class="cognitive-item cognitive-new">
+            <div class="cognitive-date">今天</div>
+            <div class="cognitive-text">"开会其实没那么可怕，准备充分就行"</div>
+          </div>
+        </div>
+        <div class="cognitive-insight">你在"公开表达"这件事上变得更自信了。这个变化可能源于你开始意识到"说错话也没关系"，对自己的专业能力更有信心了。</div>
+      </div>
+
+      <div class="closing-message">明天见，记得照顾好自己 ☀️</div>
+    </div>
+
+    <!-- 设置页面 -->
+    <!-- 设置页面（精简版） -->
+    <div class="page" id="settings">
+      <div class="record-page-header">
+        <button class="back-btn" onclick="showPage('home')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <div class="record-page-title">设置</div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="settings-item-icon">ℹ️</div>
+            <span class="settings-item-text">关于回响</span>
+          </div>
+          <span class="settings-item-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="version-info">
+        回响 v1.0.0<br>
+        回响，陪你听见自己
+      </div>
+    </div>
+
+    <!-- 成长页面 -->
+    <div class="page" id="review">
+      <div class="header">
+        <div class="logo">成长</div>
+      </div>
+
+      <div class="review-tabs">
+        <div class="review-tab active" onclick="switchReviewTab(0)">周回顾</div>
+        <div class="review-tab" onclick="switchReviewTab(1)">月度回顾</div>
+        <div class="review-tab" onclick="switchReviewTab(2)">季度总结</div>
+        <div class="review-tab" onclick="switchReviewTab(3)">年度回顾</div>
+      </div>
+
+      <!-- 周回顾内容 -->
+      <div class="weekly-content" id="weeklyContent">
+        <div class="review-stats">
+          <div class="review-stat-item">
+            <div class="review-stat-value">7</div>
+            <div class="review-stat-label">记录天数</div>
+          </div>
+          <div class="review-stat-item">
+            <div class="review-stat-value">18</div>
+            <div class="review-stat-label">语音条数</div>
+          </div>
+          <div class="review-stat-item">
+            <div class="review-stat-value">😌</div>
+            <div class="review-stat-label">主导情绪</div>
+          </div>
+        </div>
+
+        <div class="review-chart">
+          <div class="review-chart-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+              <line x1="9" y1="9" x2="9.01" y2="9"/>
+              <line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+            本周情绪
+          </div>
+          <div class="mood-calendar">
+            <div class="mood-calendar-row">
+              <div class="mood-day">
+                <div class="mood-circle mood-calm">😌</div>
+                <span class="mood-label">一</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-happy">😊</div>
+                <span class="mood-label">二</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-calm">😌</div>
+                <span class="mood-label">三</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-happy">😊</div>
+                <span class="mood-label">四</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-happy">😊</div>
+                <span class="mood-label">五</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-happy">😊</div>
+                <span class="mood-label">六</span>
+              </div>
+              <div class="mood-day">
+                <div class="mood-circle mood-calm">😌</div>
+                <span class="mood-label">日</span>
+              </div>
+            </div>
+            <div class="mood-legend">
+              <div class="mood-legend-item">
+                <span class="mood-legend-dot calm"></span>
+                <span>平静</span>
+              </div>
+              <div class="mood-legend-item">
+                <span class="mood-legend-dot happy"></span>
+                <span>开心</span>
+              </div>
+              <div class="mood-legend-item">
+                <span class="mood-legend-dot sad"></span>
+                <span>低落</span>
+              </div>
+            </div>
+            <div class="mood-summary">
+              <span>积极情绪</span>
+              <div class="mood-bar">
+                <div class="mood-bar-fill" style="width: 71%;"></div>
+              </div>
+              <span class="mood-positive"><strong>71%</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-chart-title" style="margin-bottom: 12px;">🏷️ 本周关键词</div>
+        <div class="keywords-cloud">
+          <span class="keyword-tag large">工作</span>
+          <span class="keyword-tag large">成长</span>
+          <span class="keyword-tag">跑步</span>
+          <span class="keyword-tag">家人</span>
+          <span class="keyword-tag">读书</span>
+          <span class="keyword-tag">朋友</span>
+          <span class="keyword-tag">项目</span>
+        </div>
+
+        <div class="suggestion-section">
+          <div class="suggestion-title">💡 给你的建议</div>
+          <div class="suggestion-list">
+            <div class="suggestion-item">你提到"运动"时情绪都很积极，这是你的能量来源，建议保持每周2-3次的频率。</div>
+            <div class="suggestion-item">注意到你这周提到"朋友"的次数增加了，社交对你有帮助，继续保持。</div>
+            <div class="suggestion-item">本周记录很稳定，坚持得很棒，下周继续保持！</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 月度回顾内容 -->
+      <div class="monthly-content" id="monthlyContent">
+        <!-- 概览卡片 -->
+        <div class="monthly-overview">
+          <div class="monthly-overview-title">二月回顾</div>
+          <div class="monthly-stats-row">
+            <div class="monthly-stat">
+              <div class="monthly-stat-value">28<span class="monthly-stat-unit">天</span></div>
+              <div class="monthly-stat-label">共记录</div>
+            </div>
+            <div class="monthly-stat">
+              <div class="monthly-stat-value">67<span class="monthly-stat-unit">条</span></div>
+              <div class="monthly-stat-label">语音记录</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 情绪状态变化 -->
+        <div class="mood-trend-section">
+          <div class="mood-trend-title">📈 情绪状态变化</div>
+          <div class="mood-trend-chart">
+            <div class="mood-bar-item">
+              <div class="mood-bar-visual" style="height: 30px;"></div>
+              <span class="mood-bar-label">第1周</span>
+            </div>
+            <div class="mood-bar-item">
+              <div class="mood-bar-visual" style="height: 45px;"></div>
+              <span class="mood-bar-label">第2周</span>
+            </div>
+            <div class="mood-bar-item">
+              <div class="mood-bar-visual high" style="height: 60px;"></div>
+              <span class="mood-bar-label">第3周</span>
+            </div>
+            <div class="mood-bar-item">
+              <div class="mood-bar-visual high" style="height: 70px;"></div>
+              <span class="mood-bar-label">第4周</span>
+            </div>
+          </div>
+          <div class="mood-trend-summary">
+            <div class="mood-trend-half">
+              <strong>上半月：</strong>波动较多，与工作压力相关
+            </div>
+            <div class="mood-trend-half">
+              <strong>下半月：</strong>逐渐稳定，"平静"出现频率上升 ↑
+            </div>
+          </div>
+        </div>
+
+        <!-- 关注点变化 -->
+        <div class="focus-compare-section">
+          <div class="focus-compare-title">🏷️ 关注点变化</div>
+          <div class="focus-compare-row">
+            <div class="focus-month">
+              <div class="focus-month-label">一月高频词</div>
+              <div class="focus-tags">
+                <span class="focus-tag old">工作</span>
+                <span class="focus-tag old">deadline</span>
+                <span class="focus-tag old">疲惫</span>
+              </div>
+            </div>
+            <div class="focus-month">
+              <div class="focus-month-label">二月高频词</div>
+              <div class="focus-tags">
+                <span class="focus-tag new">读书</span>
+                <span class="focus-tag new">运动</span>
+                <span class="focus-tag new">思考</span>
+                <span class="focus-tag new">家人</span>
+              </div>
+            </div>
+          </div>
+          <div class="focus-insight">你的注意力从"被动应对"转向"主动生活"</div>
+        </div>
+
+        <!-- 行为习惯变化 -->
+        <div class="habit-section">
+          <div class="habit-title">✅ 行为习惯变化</div>
+          <div class="habit-list">
+            <div class="habit-item">
+              <span class="habit-icon">😴</span>
+              <div class="habit-info">
+                <div class="habit-name">作息</div>
+                <div class="habit-detail">23点前入睡从 30% → 70%</div>
+              </div>
+              <span class="habit-status up">↑</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-icon">🏃</span>
+              <div class="habit-info">
+                <div class="habit-name">运动</div>
+                <div class="habit-detail">提到跑步 12 次，实际约 8 次</div>
+              </div>
+              <span class="habit-status up">↑</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-icon">📚</span>
+              <div class="habit-info">
+                <div class="habit-name">学习</div>
+                <div class="habit-detail">记录中提到读书 15 次</div>
+              </div>
+              <span class="habit-status up">↑</span>
+            </div>
+            <div class="habit-item">
+              <span class="habit-icon">👥</span>
+              <div class="habit-info">
+                <div class="habit-name">社交</div>
+                <div class="habit-detail">提到"朋友"仅 3 次</div>
+              </div>
+              <span class="habit-status warning">⚠</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 认知/观点变化 -->
+        <div class="cognitive-monthly-section">
+          <div class="cognitive-monthly-title">💡 认知/观点变化</div>
+          <div class="cognitive-monthly-topic">对"工作"的看法</div>
+          <div class="cognitive-monthly-compare">
+            <div class="cognitive-monthly-item old">
+              <div class="cognitive-monthly-label">一月</div>
+              <div class="cognitive-monthly-text">"是压力，是负担"</div>
+            </div>
+            <div class="cognitive-monthly-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+            <div class="cognitive-monthly-item new">
+              <div class="cognitive-monthly-label">二月</div>
+              <div class="cognitive-monthly-text">"是挑战，但也有成长"</div>
+            </div>
+          </div>
+          <div class="cognitive-monthly-insight">你在重新定义工作的意义</div>
+        </div>
+
+        <!-- 给你的建议 -->
+        <div class="monthly-suggestion-section">
+          <div class="monthly-suggestion-title">💌 给你的三月建议</div>
+          <div class="monthly-suggestion-list">
+            <div class="monthly-suggestion-item">
+              <div class="monthly-suggestion-head">
+                <span class="monthly-suggestion-num">1</span>保持运动节奏
+              </div>
+              <div class="monthly-suggestion-text">你提到运动时情绪都很积极，这是你的能量来源。建议保持每周 2-3 次的频率。</div>
+            </div>
+            <div class="monthly-suggestion-item">
+              <div class="monthly-suggestion-head">
+                <span class="monthly-suggestion-num">2</span>适当增加社交
+              </div>
+              <div class="monthly-suggestion-text">注意到你提到社交的次数不多，但你说过"和朋友聊天后会放松"，可以约个老朋友。</div>
+            </div>
+            <div class="monthly-suggestion-item">
+              <div class="monthly-suggestion-head">
+                <span class="monthly-suggestion-num">3</span>继续记录，继续觉察
+              </div>
+              <div class="monthly-suggestion-text">你已经坚持了两个月，这很了不起。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 我的页面 -->
+    <div class="page" id="profile">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="profile-name">你好，用户</div>
+        <div class="profile-desc">已记录 127 天</div>
+      </div>
+
+      <div class="stats-card" style="margin: 0 0 24px 0;">
+        <div class="stats-label">累计记录</div>
+        <div class="stats-number">127<span>天</span></div>
+        <div style="text-align: center; margin: 12px 0; font-size: 13px; opacity: 0.9;">
+          本月：23/28 天 (82%)
+        </div>
+        <div class="stats-row">
+          <div class="stats-item">
+            <span class="stats-item-value">12天 🔥</span>
+            <span class="stats-item-label">连续记录</span>
+          </div>
+          <div class="stats-item">
+            <span class="stats-item-value">482</span>
+            <span class="stats-item-label">总语音条数</span>
+          </div>
+          <div class="stats-item">
+            <span class="stats-item-value">5</span>
+            <span class="stats-item-label">认知变化</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-item" onclick="showPage('review')">
+          <div class="settings-item-left">
+            <div class="settings-item-icon">📊</div>
+            <span class="settings-item-text">成长记录</span>
+          </div>
+          <span class="settings-item-arrow">→</span>
+        </div>
+        <div class="settings-item">
+          <div class="settings-item-left">
+            <div class="settings-item-icon">💡</div>
+            <span class="settings-item-text">过去的我说</span>
+          </div>
+          <span class="settings-item-arrow">→</span>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-item" onclick="showPage('settings')">
+          <div class="settings-item-left">
+            <div class="settings-item-icon">⚙️</div>
+            <span class="settings-item-text">设置</span>
+          </div>
+          <span class="settings-item-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="showPage('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>首页</span>
+      </div>
+      <div class="nav-item" onclick="showPage('diary-list')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span>日记</span>
+      </div>
+      <div class="nav-item" onclick="showPage('review')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>成长</span>
+      </div>
+      <div class="nav-item" onclick="showPage('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>我的</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 页面切换
+    function showPage(pageId) {
+      // 隐藏所有普通页面
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+
+      // 隐藏登录页面
+      const loginPage = document.querySelector('.login-page');
+      if (loginPage) {
+        loginPage.style.display = 'none';
+      }
+
+      // 显示目标页面
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        // 如果是登录页面，特殊处理
+        if (targetPage.classList.contains('login-page')) {
+          targetPage.style.display = 'flex';
+        } else {
+          targetPage.classList.add('active');
+        }
+      }
+
+      // 更新导航状态
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      // 根据页面设置导航高亮
+      const navMap = {
+        'home': 0,
+        'diary-list': 1,
+        'review': 2,
+        'profile': 3
+      };
+
+      if (navMap[pageId] !== undefined) {
+        document.querySelectorAll('.nav-item')[navMap[pageId]].classList.add('active');
+      }
+    }
+
+    // ========== 语音录制 - 录完即发 ==========
+    let isRecording = false;
+    let recordTimer = null;
+    let recordSeconds = 0;
+
+    const voiceBtnLarge = document.getElementById('voiceBtnLarge');
+    const voiceHint = document.getElementById('voiceHint');
+    const recordTimeEl = document.getElementById('recordTime');
+    const voiceSection = document.getElementById('voiceSection');
+    const transcribingState = document.getElementById('transcribingState');
+    const transcribeResult = document.getElementById('transcribeResult');
+    const transcribeText = document.getElementById('transcribeText');
+    const dividerLine = document.getElementById('dividerLine');
+    const textInputSection = document.getElementById('textInputSection');
+
+    // 按住开始录制
+    function startRecording() {
+      if (isRecording) return;
+      isRecording = true;
+      recordSeconds = 0;
+
+      voiceBtnLarge.classList.add('recording');
+      voiceHint.querySelector('.hint-main').textContent = '松开发送';
+      recordTimeEl.style.display = 'block';
+
+      // 开始计时
+      recordTimer = setInterval(() => {
+        recordSeconds++;
+        const mins = Math.floor(recordSeconds / 60).toString().padStart(2, '0');
+        const secs = (recordSeconds % 60).toString().padStart(2, '0');
+        recordTimeEl.textContent = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    // 松开发送
+    function stopRecording() {
+      if (!isRecording) return;
+      isRecording = false;
+
+      clearInterval(recordTimer);
+      voiceBtnLarge.classList.remove('recording');
+
+      // 如果录音时间太短，提示重试
+      if (recordSeconds < 1) {
+        voiceHint.querySelector('.hint-main').textContent = '按住说话，松开发送';
+        recordTimeEl.style.display = 'none';
+        alert('录音时间太短，请重试');
+        return;
+      }
+
+      // 显示转写中状态
+      voiceSection.style.display = 'none';
+      dividerLine.style.display = 'none';
+      textInputSection.style.display = 'none';
+      transcribingState.style.display = 'block';
+
+      // 模拟转写过程（实际项目中调用API）
+      setTimeout(() => {
+        transcribingState.style.display = 'none';
+        // 模拟转写结果
+        transcribeText.textContent = '今天开会的时候突然想到，之前一直担心的那个问题好像没那么严重了，可能是我最近准备得比较充分的原因吧。';
+        transcribeResult.style.display = 'block';
+      }, 1500);
+    }
+
+    // 绑定事件 - 支持触摸和鼠标
+    if (voiceBtnLarge) {
+      // 鼠标事件
+      voiceBtnLarge.addEventListener('mousedown', startRecording);
+      voiceBtnLarge.addEventListener('mouseup', stopRecording);
+      voiceBtnLarge.addEventListener('mouseleave', () => {
+        if (isRecording) stopRecording();
+      });
+
+      // 触摸事件
+      voiceBtnLarge.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startRecording();
+      });
+      voiceBtnLarge.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        stopRecording();
+      });
+    }
+
+    // 重新录制
+    function resetToRecord() {
+      transcribeResult.style.display = 'none';
+      voiceSection.style.display = 'flex';
+      dividerLine.style.display = 'flex';
+      textInputSection.style.display = 'block';
+      voiceHint.querySelector('.hint-main').textContent = '按住说话，松开发送';
+      recordTimeEl.style.display = 'none';
+      recordTimeEl.textContent = '00:00';
+    }
+
+    // 确认发送
+    function confirmRecord() {
+      alert('记录发送成功！');
+      resetToRecord();
+      showPage('home');
+    }
+
+    // 切换文字输入
+    function toggleTextInput() {
+      const hiddenInput = document.getElementById('hiddenTextInput');
+      const toggleBtn = document.getElementById('textInputToggle');
+      hiddenInput.classList.toggle('show');
+      if (hiddenInput.classList.contains('show')) {
+        toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" fill="currentColor"/></svg> 改用语音';
+      } else {
+        toggleBtn.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> 想打字？点击这里';
+      }
+    }
+
+    // 提交文字记录
+    function submitTextRecord() {
+      const textarea = document.querySelector('#hiddenTextInput textarea');
+      if (textarea.value.trim()) {
+        alert('记录发送成功！');
+        textarea.value = '';
+        document.getElementById('hiddenTextInput').classList.remove('show');
+        showPage('home');
+      } else {
+        alert('请输入内容');
+      }
+    }
+
+    // 动态问候语
+    function updateGreeting() {
+      const hour = new Date().getHours();
+      let greeting = '';
+
+      if (hour < 6) {
+        greeting = '夜深了';
+      } else if (hour < 12) {
+        greeting = '早上好';
+      } else if (hour < 18) {
+        greeting = '下午好';
+      } else {
+        greeting = '晚上好';
+      }
+
+      document.querySelector('.greeting-text').textContent = greeting;
+    }
+
+    // 初始化
+    updateGreeting();
+
+    // 成长页面Tab切换
+    function switchReviewTab(index) {
+      const tabs = document.querySelectorAll('.review-tab');
+      const weeklyContent = document.getElementById('weeklyContent');
+      const monthlyContent = document.getElementById('monthlyContent');
+
+      // 更新tab状态
+      tabs.forEach((tab, i) => {
+        if (i === index) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
+
+      // 切换内容显示
+      if (index === 0) {
+        // 周回顾
+        weeklyContent.classList.remove('hidden');
+        monthlyContent.classList.remove('active');
+      } else if (index === 1) {
+        // 月度回顾
+        weeklyContent.classList.add('hidden');
+        monthlyContent.classList.add('active');
+      } else {
+        // 季度/年度（暂未实现，显示月度内容作为占位）
+        weeklyContent.classList.add('hidden');
+        monthlyContent.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

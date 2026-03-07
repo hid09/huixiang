@@ -1,0 +1,137 @@
+/* 注册页面 - 全屏极简文学风格 */
+
+.register-page {
+  min-height: 100vh;
+  padding: 60px 24px 40px;
+  background: var(--bg-primary);
+  max-width: 430px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-card {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.register-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 42px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 12px;
+  margin: 0 0 12px 0;
+}
+
+.register-subtitle {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+.register-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.form-input {
+  width: 100%;
+  padding: 18px 20px;
+  background: var(--bg-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition);
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: var(--text-secondary);
+  background: var(--bg-card);
+}
+
+.form-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.form-error {
+  font-size: 13px;
+  color: #E53935;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 18px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 32px;
+}
+
+.register-footer-text {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.register-link {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: var(--transition);
+}
+
+.register-link:hover {
+  opacity: 0.7;
+}

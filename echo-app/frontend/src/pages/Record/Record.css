@@ -1,0 +1,517 @@
+/* 记录页样式 - 基于原型设计 */
+
+.record-page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* 页面头部 */
+.record-page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 20px;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-secondary);
+}
+
+.back-btn:hover {
+  background: var(--bg-secondary);
+}
+
+.record-page-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 录音问候 */
+.record-greeting {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.record-greeting-time {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.record-greeting-hint {
+  font-size: 20px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* 语音录制区域 */
+.voice-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0 40px;
+  text-align: center;
+}
+
+/* 大语音按钮 */
+.voice-btn-large {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2A2A2A, #1A1A1A);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: var(--transition);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  touch-action: manipulation;
+}
+
+.voice-btn-large::before {
+  content: '';
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 2px solid rgba(26, 26, 26, 0.15);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+.voice-btn-large::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 26, 26, 0.08);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.voice-btn-large:hover {
+  transform: scale(1.02);
+}
+
+.voice-btn-large:active,
+.voice-btn-large.recording {
+  background: linear-gradient(145deg, #3A3A3A, #2A2A2A);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.voice-btn-large.recording::before {
+  animation: pulse-ring 1.2s ease-out infinite;
+  border-color: rgba(26, 26, 26, 0.3);
+}
+
+@keyframes pulse-ring {
+  0% {
+    width: 160px;
+    height: 160px;
+    opacity: 1;
+  }
+  100% {
+    width: 240px;
+    height: 240px;
+    opacity: 0;
+  }
+}
+
+.voice-btn-large svg {
+  width: 48px;
+  height: 48px;
+  fill: white;
+  transition: transform 0.2s ease;
+}
+
+.voice-btn-large.recording svg {
+  transform: scale(1.1);
+}
+
+.voice-hint-large {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-top: 28px;
+  font-weight: 400;
+}
+
+.hint-time {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 转写状态 */
+.transcribing-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 0 60px;
+}
+
+.transcribing-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.transcribing-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: var(--text-secondary);
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.transcribing-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* 转写结果 */
+.transcribe-result {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin: 20px 16px;
+  border: 1px solid var(--border);
+}
+
+.transcribe-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.transcribe-result-label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.btn-edit {
+  padding: 4px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-edit:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.transcribe-result-text {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-primary);
+}
+
+.transcribe-edit-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+  resize: none;
+  outline: none;
+  line-height: 1.7;
+}
+
+.transcribe-edit-textarea:focus {
+  border-color: #1A1A1A;
+}
+
+.transcribe-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-rerecord {
+  flex: 1;
+  padding: 12px;
+  background: var(--bg-secondary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-rerecord:hover {
+  background: var(--border);
+}
+
+.btn-confirm {
+  flex: 1;
+  padding: 12px;
+  background: #1A1A1A;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-confirm:hover {
+  background: #333;
+}
+
+/* 分隔线 */
+.divider-line {
+  height: 1px;
+  background: var(--border);
+  margin: 0 24px 20px;
+  opacity: 0.5;
+}
+
+/* 文字输入区域 */
+.text-input-section {
+  padding: 0 16px 30px;
+}
+
+.text-input-toggle {
+  width: 100%;
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  font-family: 'Noto Sans SC', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.text-input-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.text-input-toggle:hover {
+  border-color: var(--text-tertiary);
+  color: var(--text-primary);
+}
+
+/* 隐藏的文字输入框 */
+.hidden-text-input {
+  display: none;
+}
+
+.hidden-text-input.show {
+  display: block;
+}
+
+.hidden-text-input textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 15px;
+  resize: none;
+  outline: none;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+.hidden-text-input textarea:focus {
+  border-color: var(--text-secondary);
+}
+
+.hidden-text-input textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.hidden-text-input button {
+  width: 100%;
+  padding: 14px;
+  background: #1A1A1A;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.hidden-text-input button:hover {
+  background: #333;
+}
+
+.hidden-text-input button:disabled {
+  background: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* 纯文字模式样式 */
+.text-mode-section {
+  flex: 1;
+  padding: 0 16px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-area {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid var(--border);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  margin-bottom: 12px;
+}
+
+.text-input {
+  flex: 1;
+  width: 100%;
+  min-height: 200px;
+  border: none;
+  outline: none;
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+  background: transparent;
+  resize: none;
+  line-height: 1.7;
+}
+
+.text-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.submit-btn {
+  padding: 14px;
+  background: #1A1A1A;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Noto Sans SC', sans-serif;
+}
+
+.submit-btn:hover {
+  background: #333;
+}
+
+.submit-btn:disabled {
+  background: var(--text-tertiary);
+  cursor: not-allowed;
+}
+
+/* 录音操作按钮 */
+.record-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.record-actions .btn-rerecord {
+  flex: 1;
+  padding: 12px 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.record-actions .btn-rerecord:hover {
+  background: var(--border);
+  color: var(--text-primary);
+}
+
+.record-actions .btn-confirm {
+  flex: 1;
+  padding: 12px 24px;
+  background: #1A1A1A;
+  border: none;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.record-actions .btn-confirm:hover {
+  background: #333;
+}
