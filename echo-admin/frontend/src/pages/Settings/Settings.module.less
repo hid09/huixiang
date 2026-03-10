@@ -1,0 +1,453 @@
+// 系统设置页样式 - 100%按原型
+.settings {
+  padding: 6px 12px;
+  min-height: 100vh;
+}
+
+/* 工具栏 - 100%按原型 */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.toolbarTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1f36;
+  margin: 0;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3555 100%);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 31, 54, 0.3);
+  }
+}
+
+/* 信息卡片 - 100%按原型 */
+.infoCard {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  margin-top: 12px;
+}
+
+.infoTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1f36;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px 0;
+
+  svg {
+    color: #4ecdc4;
+  }
+}
+
+.infoContent {
+  display: flex;
+  gap: 40px;
+  margin-top: 12px;
+}
+
+.roleSection {
+  flex: 1;
+}
+
+.roleSectionTitle {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #1a1f36;
+}
+
+.roleList {
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.8;
+  padding-left: 16px;
+  margin: 0;
+
+  li {
+    margin-bottom: 0;
+  }
+}
+
+/* 表格 */
+.tableCard {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  color: #9ca3af;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #faf8f5;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 12px;
+      font-size: 14px;
+      color: #1a1f36;
+      vertical-align: middle;
+    }
+  }
+}
+
+.idCell {
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.nameCell {
+  font-weight: 500;
+}
+
+.dateCell {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.actionCell {
+  text-align: center;
+}
+
+.resetBtn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #4ecdc4;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(78, 205, 196, 0.1);
+  }
+}
+
+.resetBtnDisabled {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.roleTag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.roleTagSuper {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.roleTagViewer {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+/* 模态框 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f3f4f6;
+
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1f36;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      color: #feca57;
+    }
+  }
+}
+
+.closeBtn {
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  &:hover {
+    color: #6b7280;
+  }
+}
+
+.modalBody {
+  padding: 24px;
+}
+
+.resetHint {
+  margin: 0 0 20px 0;
+  padding: 12px 16px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #6b7280;
+
+  strong {
+    color: #1a1f36;
+  }
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.formInput, .formSelect {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1a1f36;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.formInputError {
+  border-color: #ff6b6b;
+
+  &:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+  }
+}
+
+.errorText {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #ff6b6b;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.cancelBtn, .confirmBtn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.cancelBtn {
+  border: 1.5px solid #e5e7eb;
+  background: white;
+  color: #6b7280;
+
+  &:hover {
+    border-color: #4ecdc4;
+    color: #4ecdc4;
+  }
+}
+
+.confirmBtn {
+  border: none;
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3555 100%);
+  color: white;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 31, 54, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .settings {
+    padding: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .addBtn {
+    justify-content: center;
+  }
+
+  .tableWrapper {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}

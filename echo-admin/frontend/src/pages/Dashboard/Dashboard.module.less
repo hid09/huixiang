@@ -1,0 +1,338 @@
+// 数据看板页样式 - 100%按原型
+.dashboard {
+  padding: 6px 12px;
+  min-height: 100vh;
+}
+
+/* ==================== 概览卡片 - 完全按原型 ==================== */
+.overviewCards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* 左侧彩色边条 */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+
+  /* 不同卡片的颜色 */
+  &.statCard1::before { background: #4ecdc4; }
+  &.statCard2::before { background: #ff6b6b; }
+  &.statCard3::before { background: #feca57; }
+  &.statCard4::before { background: #a55eea; }
+
+  /* hover效果 */
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 31, 54, 0.08);
+
+    &::before {
+      width: 6px;
+    }
+  }
+}
+
+.statLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.statIcon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+}
+
+.statValue {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1f36;
+  line-height: 1.2;
+}
+
+/* 变化百分比 - 完全按原型 */
+.statChange {
+  font-size: 12px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.statChangeUp {
+  color: #4ecdc4;
+}
+
+.statChangeDown {
+  color: #ff6b6b;
+}
+
+/* ==================== AI 健康度 - 完全按原型 ==================== */
+.healthSection {
+  margin-bottom: 28px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1a1f36;
+  margin: 0;
+}
+
+.healthCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 2fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.healthItem {
+  text-align: center;
+  padding: 16px;
+  background: #faf8f5;
+  border-radius: 8px;
+}
+
+.healthLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.healthValue {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.healthValueSuccess {
+  color: #4ecdc4;
+}
+
+.healthValueFail {
+  color: #ff6b6b;
+}
+
+.healthValueWarning {
+  color: #feca57;
+}
+
+.healthBarContainer {
+  flex: 1;
+}
+
+.healthBarLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.thresholdTag {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.healthBar {
+  height: 12px;
+  background: #faf8f5;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.healthBarFill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.healthBarFillSafe {
+  background: linear-gradient(90deg, #4ecdc4, #6ee7b7);
+}
+
+.healthBarFillWarning {
+  background: linear-gradient(90deg, #feca57, #fbbf24);
+}
+
+.healthBarFillDanger {
+  background: linear-gradient(90deg, #ff6b6b, #f87171);
+}
+
+.healthBarThreshold {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: #ff6b6b;
+  left: 20%;
+}
+
+.healthBarThreshold::after {
+  content: '2%';
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #ff6b6b;
+  white-space: nowrap;
+}
+
+/* ==================== 趋势图 - 完全按原型 ==================== */
+.chartSection {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+}
+
+.chartContainer {
+  height: 320px;
+  position: relative;
+}
+
+.emptyChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 320px;
+  color: #d1d5db;
+
+  svg {
+    width: 80px;
+    height: 80px;
+    opacity: 0.6;
+  }
+}
+
+.emptyChartText {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.chartLegend {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 1200px) {
+  .overviewCards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .healthCard {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 20px;
+  }
+
+  .overviewCards {
+    grid-template-columns: 1fr;
+  }
+
+  .healthCard {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== 动画 - 完全按原型 ==================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+  opacity: 0; /* 初始隐藏 */
+}
+
+.stagger1 {
+  animation-delay: 0.1s;
+}
+
+.stagger2 {
+  animation-delay: 0.2s;
+}
+
+.stagger3 {
+  animation-delay: 0.3s;
+}
+
+.stagger4 {
+  animation-delay: 0.4s;
+}

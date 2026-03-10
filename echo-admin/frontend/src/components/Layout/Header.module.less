@@ -1,0 +1,54 @@
+// 顶部栏样式
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1f36;
+}
+
+.userTrigger {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+.username {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.profileInfo {
+  padding: 4px 0;
+}
+
+.profileInfo .username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a1f36;
+}
+
+.role {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}

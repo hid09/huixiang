@@ -1,0 +1,383 @@
+// 用户详情页样式
+.userDetail {
+  padding: 6px 12px;
+  min-height: 100vh;
+}
+
+/* 信息卡片 */
+.infoCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  margin-bottom: 20px;
+}
+
+.infoCardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a1f36;
+
+  svg {
+    color: #4ecdc4;
+  }
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: 50px;
+}
+
+.infoLabel {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.infoValue {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1f36;
+  line-height: 1.5;
+}
+
+/* Tab 切换 - 100%按原型 */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.tab {
+  padding: 12px 20px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  font-family: inherit;
+
+  &:hover {
+    color: #1a1f36;
+  }
+
+  &.tabActive {
+    color: #4ecdc4;
+    border-bottom-color: #4ecdc4;
+  }
+}
+
+.tabContent {
+  min-height: 200px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  color: #9ca3af;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+  color: #9ca3af;
+}
+
+/* 录音表格 - 100%按原型 */
+.recordTableCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  overflow: hidden;
+}
+
+.recordTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      border-bottom: 2px solid #f3f4f6;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid #f3f4f6;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #faf8f5;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    td {
+      padding: 12px;
+      font-size: 14px;
+      color: #1a1f36;
+      vertical-align: middle;
+    }
+  }
+}
+
+.recordTime {
+  font-size: 13px;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.recordContent {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 标签单元格 */
+.recordTagCell {
+  text-align: left;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tagTeal {
+  background: rgba(78, 205, 196, 0.15);
+  color: #2d9a94;
+}
+
+.tagCoral {
+  background: rgba(255, 107, 107, 0.15);
+  color: #e05555;
+}
+
+.tagAmber {
+  background: rgba(254, 202, 87, 0.15);
+  color: #d4a03c;
+}
+
+.tagGray {
+  background: rgba(107, 114, 128, 0.15);
+  color: #6b7280;
+}
+
+.detailBtn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #4ecdc4;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(78, 205, 196, 0.1);
+  }
+}
+
+/* 分页 - 100%按原型 */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  border-top: 1px solid #e5e7eb;
+}
+
+.paginationInfo {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.paginationBtns {
+  display: flex;
+  gap: 4px;
+}
+
+.pageBtn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: white;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    border-color: #4ecdc4;
+    color: #4ecdc4;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+/* 日记列表 - 简单卡片形式（100%按原型） */
+.diaryListSimple {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diaryItem {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(26, 31, 54, 0.04);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(26, 31, 54, 0.08);
+    transform: translateY(-1px);
+  }
+}
+
+.diaryItemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.diaryItemDate {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1a1f36;
+}
+
+.diaryItemTags {
+  display: flex;
+  gap: 8px;
+}
+
+.diaryItemPreview {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.diaryItemFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.diaryItemMeta {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.btnText {
+  background: transparent;
+  border: none;
+  color: #4ecdc4;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(78, 205, 196, 0.1);
+  }
+}
+
+/* 加载容器 */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f4f6;
+  border-top-color: #4ecdc4;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .userDetail {
+    padding: 20px;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .diaryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

@@ -1,0 +1,236 @@
+// 登录页样式 - 完全按原型设计
+
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3555 50%, #1a1f36 100%);
+  position: relative;
+  overflow: hidden;
+
+  // 声波背景动画
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 800px;
+    transform: translate(-50%, -50%);
+    background:
+      radial-gradient(circle, transparent 30%, rgba(78, 205, 196, 0.03) 31%, transparent 32%),
+      radial-gradient(circle, transparent 40%, rgba(78, 205, 196, 0.03) 41%, transparent 42%),
+      radial-gradient(circle, transparent 50%, rgba(78, 205, 196, 0.02) 51%, transparent 52%),
+      radial-gradient(circle, transparent 60%, rgba(78, 205, 196, 0.02) 61%, transparent 62%);
+    animation: ripple 8s ease-in-out infinite;
+  }
+
+  @keyframes ripple {
+    0%, 100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.1);
+      opacity: 0.8;
+    }
+  }
+}
+
+.loginContainer {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 48px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 12px 32px rgba(26, 31, 54, 0.12);
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loginLogo {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logoIcon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  position: relative;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.3); }
+  }
+}
+
+.logoWave1 {
+  fill: #4ecdc4;
+  animation: wave 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.logoWave2 {
+  fill: #4ecdc4;
+  animation: wave 2s ease-in-out infinite 0.2s;
+  transform-origin: center;
+}
+
+.logoWave3 {
+  fill: #4ecdc4;
+  animation: wave 2s ease-in-out infinite 0.4s;
+  transform-origin: center;
+}
+
+.loginTitle {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1f36;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.loginSubtitle {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 8px;
+  letter-spacing: 4px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.formInput {
+  padding: 14px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  background: #faf8f5;
+  box-sizing: border-box;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.errorText {
+  font-size: 12px;
+  color: #ff6b6b;
+  margin-top: -4px;
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+  user-select: none;
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #4ecdc4;
+    cursor: pointer;
+  }
+
+  &:hover {
+    color: #1a1f36;
+  }
+}
+
+.btn {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, #1a1f36 0%, #2d3555 100%);
+  color: white;
+  margin-top: 8px;
+  width: 100%;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(26, 31, 54, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
