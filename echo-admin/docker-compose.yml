@@ -9,8 +9,10 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      # 挂载回响 app 的数据库（只读）
+      # 回响 app 数据库（只读，读取用户数据）
       - /root/huixiang/echo-app/data/echo.db:/app/data/echo.db:ro
+      # 管理员数据库（可写，存储管理员账号）
+      - echo-admin-data:/app/data
     networks:
       - echo-admin-network
     healthcheck:
@@ -34,3 +36,6 @@ services:
 networks:
   echo-admin-network:
     driver: bridge
+
+volumes:
+  echo-admin-data:

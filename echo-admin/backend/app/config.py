@@ -14,23 +14,14 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24小时
 
-    # 数据库配置（支持 SQLite 和 MySQL）
-    DATABASE_URL: str = "sqlite:////Users/jianguo/Desktop/test/echo-admin/backend/echo_admin.db"  # 使用绝对路径
+    # 主数据库（存储管理员账号）
+    DATABASE_URL: str = "sqlite:////app/data/echo_admin.db"
 
-    # MySQL 配置（可选，用于生产环境）
-    DB_HOST: str = "localhost"
-    DB_PORT: int = 3306
-    DB_USER: str = "echo_readonly"
-    DB_PASSWORD: str = ""
-    DB_NAME: str = "echo_db"
+    # 回响数据库（只读，读取用户数据）
+    ECHO_DATABASE_URL: str = "sqlite:////app/data/echo.db"
 
     # CORS 配置
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
-
-    @property
-    def USE_SQLITE(self) -> bool:
-        """判断是否使用 SQLite"""
-        return self.DATABASE_URL.startswith("sqlite")
 
     class Config:
         env_file = ".env"

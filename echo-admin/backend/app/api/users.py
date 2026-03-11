@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_echo_db
 from app.schemas.common import ApiResponse, PaginatedResponse
 from app.schemas.user import UserResponse, UserDetailResponse, RecordResponse, DiaryResponse
 from app.services.user_service import UserService
@@ -19,7 +19,7 @@ async def get_users(
     keyword: Optional[str] = Query(None, description="搜索关键词（用户名/手机号）"),
     start_date: Optional[str] = Query(None, description="开始日期"),
     end_date: Optional[str] = Query(None, description="结束日期"),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_echo_db),
     current_admin: AdminUser = Depends(get_current_admin),
 ):
     """获取用户列表（支持分页和搜索）"""
@@ -33,7 +33,7 @@ async def get_users(
 @router.get("/{user_id}", summary="获取用户详情")
 async def get_user_detail(
     user_id: str,  # UUID 字符串
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_echo_db),
     current_admin: AdminUser = Depends(get_current_admin),
 ):
     """获取用户详情"""
@@ -48,7 +48,7 @@ async def get_user_records(
     user_id: str,  # UUID 字符串
     page: int = Query(1, ge=1, description="页码"),
     page_size: int = Query(20, ge=1, le=100, description="每页数量"),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_echo_db),
     current_admin: AdminUser = Depends(get_current_admin),
 ):
     """获取用户录音记录"""
@@ -64,7 +64,7 @@ async def get_user_diaries(
     user_id: str,  # UUID 字符串
     page: int = Query(1, ge=1, description="页码"),
     page_size: int = Query(20, ge=1, le=100, description="每页数量"),
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_echo_db),
     current_admin: AdminUser = Depends(get_current_admin),
 ):
     """获取用户日记记录"""

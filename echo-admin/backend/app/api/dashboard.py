@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import func, desc
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_echo_db
 from app.schemas.common import ApiResponse
 from app.dependencies import get_current_admin
 from app.models import AdminUser, User, Record, Diary
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/api/admin/dashboard", tags=["数据看板"])
 
 @router.get("/stats", summary="获取看板统计数据")
 async def get_dashboard_stats(
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_echo_db),
     current_admin: AdminUser = Depends(get_current_admin),
 ):
     """获取看板统计数据：概览、AI健康度、7天趋势"""
