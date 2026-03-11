@@ -65,17 +65,6 @@ const DiaryDetail: React.FC = () => {
 
   return (
     <div className={styles.diaryDetail}>
-      {/* 页面头部 */}
-      <div className={styles.header}>
-        <button className={styles.backBtn} onClick={() => navigate(-1)}>
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-          </svg>
-          返回
-        </button>
-        <h1 className={styles.pageTitle}>日记详情</h1>
-      </div>
-
       {/* 日记基本信息卡片 */}
       <div className={styles.infoCard}>
         <div className={styles.diaryHeader}>

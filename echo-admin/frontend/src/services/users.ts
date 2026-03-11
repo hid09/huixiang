@@ -53,3 +53,10 @@ export const exportUsers = (): Promise<Blob> => {
     responseType: 'blob',
   });
 };
+
+/**
+ * 重置用户密码
+ */
+export const resetUserPassword = (id: string): Promise<{ new_password: string }> => {
+  return request.post<{ new_password: string }>(`/admin/users/${id}/reset-password`);
+};

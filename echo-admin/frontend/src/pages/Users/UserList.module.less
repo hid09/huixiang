@@ -364,6 +364,28 @@
   }
 }
 
+.resetBtn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 107, 107, 0.1);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
 /* 分页器 */
 .pagination {
   display: flex;

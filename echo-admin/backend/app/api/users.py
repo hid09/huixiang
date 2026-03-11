@@ -73,3 +73,16 @@ async def get_user_diaries(
         code=200,
         data={"total": total, "items": items},
     )
+
+
+@router.post("/{user_id}/reset-password", summary="重置用户密码")
+async def reset_user_password(
+    user_id: str,  # UUID 字符串
+    db: Session = Depends(get_echo_db),
+    current_admin: AdminUser = Depends(get_current_admin),
+):
+    """重置用户密码为默认密码 'huixiang'"""
+    success = UserService.reset_password(db, user_id)
+    if not success:
+        return ApiResponse(code=404, message="用户不存在", data=None)
+    return ApiResponse(code=200, message="密码已重置为默认密码", data={"new_password": "huixiang"})

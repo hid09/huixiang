@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { getUserList, exportUsers } from '@/services/users';
+import { getUserList, exportUsers, resetUserPassword } from '@/services/users';
 import type { UserListItem, UserListParams } from '@/types/user';
 import styles from './UserList.module.less';
 
@@ -10,6 +10,7 @@ const UserList: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [resetting, setResetting] = useState<string | null>(null);  // 正在重置的用户ID
   const [data, setData] = useState<UserListItem[]>([]);
   const [total, setTotal] = useState(0);
   const [params, setParams] = useState<UserListParams>({
@@ -75,6 +76,22 @@ const UserList: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setParams({ ...params, page });
+  };
+
+  const handleResetPassword = async (userId: string, userName: string) => {
+    // 二次确认
+    const confirmed = window.confirm(`确定要将用户「${userName}」的密码重置为默认密码「huixiang」吗？`);
+    if (!confirmed) return;
+
+    try {
+      setResetting(userId);
+      await resetUserPassword(userId);
+      alert(`密码已重置成功！新密码：huixiang`);
+    } catch (error: any) {
+      alert(`重置失败：${error?.response?.data?.message || error?.message || '未知错误'}`);
+    } finally {
+      setResetting(null);
+    }
   };
 
   return (
@@ -149,7 +166,7 @@ const UserList: React.FC = () => {
                     <th style={{ width: 100, textAlign: 'center' }}>录音数</th>
                     <th style={{ width: 100, textAlign: 'center' }}>日记数</th>
                     <th style={{ width: 160 }}>最后活跃</th>
-                    <th style={{ width: 100, textAlign: 'center' }}>操作</th>
+                    <th style={{ width: 140, textAlign: 'center' }}>操作</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -176,7 +193,14 @@ const UserList: React.FC = () => {
                           className={styles.detailBtn}
                           onClick={() => navigate(`/users/${user.id}`)}
                         >
-                          查看详情
+                          查看
+                        </button>
+                        <button
+                          className={styles.resetBtn}
+                          onClick={() => handleResetPassword(user.id, user.name || user.username)}
+                          disabled={resetting === user.id}
+                        >
+                          {resetting === user.id ? '重置中' : '重置'}
                         </button>
                       </td>
                     </tr>

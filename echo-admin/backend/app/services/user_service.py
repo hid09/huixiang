@@ -2,8 +2,12 @@ from datetime import datetime, timedelta
 from typing import Optional, Tuple
 from sqlalchemy.orm import Session
 from sqlalchemy import func, desc
+from passlib.context import CryptContext
 
 from app.models import User, Record, Diary
+
+# 密码加密上下文
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
@@ -172,11 +176,11 @@ class UserService:
             items.append({
                 "id": diary.id,
                 "diary_date": diary.diary_date,
-                "emotion_type": diary.emotion_summary,  # emotion_summary 作为 emotion_type
+                "emotion_type": diary.ai_tone,  # v3.0: 情绪类型存的是 ai_tone
                 "mood_tag": diary.mood_tag,
                 "keywords": diary.keywords,  # TEXT 类型，前端解析
-                "what_happened": diary.events_summary,  # events_summary 作为 what_happened
-                "thoughts": diary.thoughts_summary,  # thoughts_summary 作为 thoughts
+                "what_happened": diary.thoughts_summary,  # v3.0: thoughts_summary 存的是 what_happened
+                "thoughts": diary.emotion_journey,  # v3.0: emotion_journey 存的是 thoughts
                 "small_discovery": diary.small_discovery,
                 "records_count": records_count,
             })
@@ -204,15 +208,15 @@ class UserService:
             .all()
         )
 
-        # 构建响应
+        # 构建响应（v3.0 字段映射）
         return {
             "id": diary.id,
             "diary_date": diary.diary_date,
-            "emotion_type": diary.emotion_summary,
+            "emotion_type": diary.ai_tone,  # v3.0: 情绪类型存的是 ai_tone
             "mood_tag": diary.mood_tag,
             "keywords": diary.keywords,
-            "what_happened": diary.events_summary,
-            "thoughts": diary.thoughts_summary,
+            "what_happened": diary.thoughts_summary,  # v3.0: thoughts_summary 存的是 what_happened
+            "thoughts": diary.emotion_journey,  # v3.0: emotion_journey 存的是 thoughts
             "small_discovery": diary.small_discovery,
             "records_count": len(records),
             "user": {
@@ -231,3 +235,26 @@ class UserService:
                 for r in records
             ],
         }
+
+    @staticmethod
+    def reset_password(db: Session, user_id: str, new_password: str = "huixiang") -> bool:
+        """重置用户密码
+
+        Args:
+            db: 数据库会话
+            user_id: 用户ID
+            new_password: 新密码，默认为 'huixiang'
+
+        Returns:
+            是否重置成功
+        """
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            return False
+
+        # 生成密码哈希
+        hashed_password = pwd_context.hash(new_password)
+        user.password_hash = hashed_password
+        db.commit()
+
+        return True

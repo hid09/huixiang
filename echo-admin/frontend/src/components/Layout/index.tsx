@@ -41,8 +41,15 @@ const MainLayout: React.FC = () => {
 
   const title = getPageTitle();
   const showRefresh = location.pathname === '/dashboard';
-  const showBackButton = location.pathname.startsWith('/users/') && location.pathname !== '/users';
-  const handleBack = () => navigate('/users');
+  const showBackButton = (location.pathname.startsWith('/users/') && location.pathname !== '/users') ||
+                         location.pathname.startsWith('/diaries/');
+  const handleBack = () => {
+    if (location.pathname.startsWith('/diaries/')) {
+      navigate(-1);  // 日记详情返回上一页
+    } else {
+      navigate('/users');
+    }
+  };
 
   return (
     <div className={styles.layout}>
